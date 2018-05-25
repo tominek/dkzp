@@ -22,15 +22,23 @@ class Category implements \JsonSerializable
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=80, nullable=true)
+     *
+     * @var string
+     */
+    private $description;
+
+    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Book", inversedBy="groups")
      *
      * @var Book[]
      */
     private $books;
 
-    public function __construct($name)
+    public function __construct($name, $description)
     {
         $this->name = $name;
+        $this->description = $description;
     }
 
     public function getId()
@@ -50,6 +58,18 @@ class Category implements \JsonSerializable
         return $this;
     }
 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): Category
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
     /**
      * @return Book[]
      */
@@ -61,9 +81,11 @@ class Category implements \JsonSerializable
     /**
      * @param Book[] $books
      */
-    public function setBooks(array $books): void
+    public function setBooks(array $books): Category
     {
         $this->books = $books;
+
+        return $this;
     }
 
     function jsonSerialize()

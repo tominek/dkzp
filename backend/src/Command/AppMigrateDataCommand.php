@@ -2,9 +2,12 @@
 
 namespace App\Command;
 
+use App\Entity\Category;
 use App\Entity\User;
+use App\Repository\CategoryRepository;
 use App\Security\UserProvider;
 use App\Service\MigrationService;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -20,13 +23,20 @@ class AppMigrateDataCommand extends Command
     /** @var UserProvider */
     private $userProvider;
 
+    /** @var CategoryRepository */
+    private $categoryRepository;
+
     protected static $defaultName = 'app:migrate-data';
 
-    public function __construct(MigrationService $migrationService, UserProvider $userProvider)
-    {
+    public function __construct(
+        MigrationService $migrationService,
+        UserProvider $userProvider,
+        CategoryRepository $categoryRepository
+    ) {
         parent::__construct();
         $this->migrationService = $migrationService;
         $this->userProvider = $userProvider;
+        $this->categoryRepository = $categoryRepository;
     }
 
     protected function configure()
@@ -62,8 +72,21 @@ class AppMigrateDataCommand extends Command
                 $user['psw'],
                 [$this->getNewUserRole($user['role'])]
             );
-            $this->userProvider->createWithoutFlush($newUser, $i !== count($oldUsers));
+            $this->userProvider->createWithoutFlush($newUser, $i === count($oldUsers));
             $io->writeln(sprintf('Importing user #%d...', $i));
+            $i++;
+        }
+
+        // Category (kh_kategorie)
+        $oldCategories = $this->migrationService->getOldDataFromTable('kh_kategorie');
+        $i = 1;
+        foreach ($oldCategories as $category) {
+            $newCategory = new Category(
+                $category['nazev'],
+                trim($category['popis']) !== '' ? $category['popis'] : null
+            );
+            $this->categoryRepository->save($newCategory, $i === count($oldCategories));
+            $io->writeln(sprintf('Importing category #%d...', $i));
             $i++;
         }
 

@@ -23,11 +23,14 @@ class CategoryRepository extends ServiceEntityRepository
 
     /**
      * @param Category $category
+     * @param bool $flush
      */
-    public function save(Category $category): void
+    public function save(Category $category, bool $flush = true): void
     {
         $this->_em->persist($category);
-        $this->_em->flush();
+        if ($flush) {
+            $this->_em->flush();
+        }
     }
 
     /**
@@ -45,9 +48,9 @@ class CategoryRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
-    private function create($name)
+    private function create(string $name, string $description): Category
     {
-        $category = new Category($name);
+        $category = new Category($name, $description);
         $this->save($category);
 
         return $category;
@@ -62,7 +65,8 @@ class CategoryRepository extends ServiceEntityRepository
     {
         $data = $this->getValidatedData($request);
         return $this->create(
-            $data['name']
+            $data['name'],
+            $data['desctiption']
         );
     }
 
@@ -83,7 +87,7 @@ class CategoryRepository extends ServiceEntityRepository
         }
 
         $data = $this->getValidatedData($request);
-        $category->setName($data['name']);
+        $category->setName($data['name'])->setDescription($data['description']);
         $this->save($category);
 
         return $category;
@@ -98,6 +102,9 @@ class CategoryRepository extends ServiceEntityRepository
         }
         if (!array_key_exists("name", $data)) {
             throw new \InvalidArgumentException("Missing required parameters. Required: name");
+        }
+        if (!array_key_exists("description", $data)) {
+            throw new \InvalidArgumentException("Missing required parameters. Required: description");
         }
         return $data;
     }
