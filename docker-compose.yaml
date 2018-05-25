@@ -3,6 +3,7 @@ networks:
   overlay:
 volumes:
   db-data:
+  db2-data:
 services:
   proxy:
     image: traefik:1.6
@@ -28,7 +29,7 @@ services:
     volumes:
       - ./backend:/var/www
     environment:
-      DATABASE_URL: mysql://test:test@db:3306/test
+      DATABASE_URL: mysql://root:root@db:3306/test
   # frontend:
   #   build: ./frontend
   #   networks:
@@ -42,12 +43,25 @@ services:
   db:
     image: mariadb:10.3
     volumes:
-     - db-data:/var/lib/mysql
+      - db-data:/var/lib/mysql
     networks:
       - overlay
     restart: always
     environment:
-     MYSQL_ROOT_PASSWORD: root
-     MYSQL_DATABASE: test
-     MYSQL_USER: test
-     MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: root
+    ports:
+      - 3306:3306
+  db2:
+    image: mariadb:10.3
+    volumes:
+      - db2-data:/var/lib/mysql
+      - ./pok.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - overlay
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: root
+    ports:
+      - 3307:3306
