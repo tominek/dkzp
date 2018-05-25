@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  */
-class Book
+class Book implements \JsonSerializable
 {
     /**
      * @ORM\Column(type="integer")
@@ -50,5 +50,13 @@ class Book
     public function setName($name): void
     {
         $this->name = $name;
+    }
+
+    function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name
+        ];
     }
 }

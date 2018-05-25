@@ -3,29 +3,49 @@
 namespace App\Controller;
 
 use App\Entity\Book;
-use FOS\RestBundle\Controller\Annotations as FOSRest;
+use App\Repository\BookRepository;
 use FOS\RestBundle\Controller\FOSRestController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class BookController extends FOSRestController
 {
     /**
-     * Create Book.
-     * @FOSRest\Post("/book")
-     *
-     * @param Request $request
-     *
-     * @return Response
+     * @var BookRepository
      */
-    public function createBook(Request $request)
-    {
-        $book = new Book();
-        $book->setName('Zla literatura');
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($book);
-        $em->flush();
+    private $bookRepository;
 
-        return $this->view($book, Response::HTT)->getResponse();
+    /**
+     * BookController constructor.
+     */
+    public function __construct(BookRepository $bookRepository)
+    {
+        $this->bookRepository = $bookRepository;
+    }
+
+    /**
+     * @Route("/book", methods={"GET"}, name="books")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getAll(Request $request): JsonResponse
+    {
+        $maxLimit = 1;
+        $limit = (int) $request->query->get('limit');
+        if ($limit > $maxLimit) {
+            $limit = $maxLimit;
+        }
+
+        $offset = (int) $request->query->get('offset');
+
+        return $this->json(
+            $this->bookRepository->findBy(
+                [],
+                [],
+                $limit ? $limit : $maxLimit,
+                $offset ? $offset : null
+            )
+        );
     }
 }
