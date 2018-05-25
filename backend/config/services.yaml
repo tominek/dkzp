@@ -15,7 +15,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{Entity,Migrations,Service,Tests,Kernel.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -28,3 +28,23 @@ services:
 
     sensio_framework_extra.view.listener:
         alias: Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener
+
+    Doctrine\DBAL\Connection:
+        factory: Doctrine\DBAL\DriverManager::getConnection
+        arguments:
+            $params:
+                driver: pdo_mysql
+                url: '%env(DATABASE_URL)%'
+                charset: UTF8
+    db.old:
+        class: Doctrine\DBAL\Connection
+        factory: Doctrine\DBAL\DriverManager::getConnection
+        arguments:
+            $params:
+                driver: pdo_mysql
+                url: '%env(DATABASE_URL_OLD)%'
+                charset: UTF8
+
+    App\Service\MigrationService:
+        arguments:
+            $old: '@db.old'

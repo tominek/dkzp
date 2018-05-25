@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.6'
 networks:
   overlay:
 volumes:
@@ -28,6 +28,7 @@ services:
       - traefik.frontend.rule=Host:dkzp-backend.local
     volumes:
       - ./backend:/var/www
+      - ./backend/docker/etc/apache2/sites-enabled:/etc/apache2/sites-enabled
     environment:
       DATABASE_URL: mysql://root:root@db:3306/test
   # frontend:
