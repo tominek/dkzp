@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class CategoryController extends Controller
 {
@@ -25,8 +26,8 @@ class CategoryController extends Controller
     }
 
     /**
-     * @Route("/category/create", name="category_create")
-     * @Method("POST")
+     * @Route("/categories", name="categories", methods={"POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function createAction(Request $request)
     {
@@ -101,6 +102,7 @@ class CategoryController extends Controller
     public function listAction()
     {
         $data = $this->categoryRepository->findAll();
+
         return $this->json([
             'data' => $data,
         ], Response::HTTP_OK);
