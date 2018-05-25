@@ -1,11 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Provider } from 'react-redux'
 import { store, history } from './redux/store'
 import logo from './logo.svg'
 import { App } from './app'
 import './DashApp.css'
 
-class DashApp extends Component {
+class DashApp extends React.Component {
+  componentDidCatch(error, info) {
+    console.log(info)
+    console.log(error)
+  }
+
   render() {
     return (
       <Provider store={store}>
