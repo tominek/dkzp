@@ -46,7 +46,9 @@ services:
       - db-data:/var/lib/mysql
     networks:
       - overlay
-    restart: always
+    restart: on-failure
+    ports:
+      - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: root
