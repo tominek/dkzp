@@ -28,6 +28,11 @@ class Category implements \JsonSerializable
      */
     private $books;
 
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
+
     public function getId()
     {
         return $this->id;
