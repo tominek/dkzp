@@ -1,4 +1,3 @@
-../.idea/
 .tmp/
 node_modules/
-backend/config/local.js
+config/local.js
