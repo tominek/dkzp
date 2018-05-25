@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use App\Repository\Exception\UserNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -20,22 +20,24 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function save(User $user)
+    public function save(User $user, bool $flush = true): void
     {
         $this->_em->persist($user);
-        $this->_em->flush();
+        if ($flush) {
+            $this->_em->flush();
+        }
     }
 
     /**
      * @param string $id
      *
-     * @throws UserNotFoundException
+     * @throws EntityNotFoundException
      */
     public function enableUser(string $id)
     {
         $user = $this->find($id);
         if (empty($user)) {
-            throw new UserNotFoundException();
+            throw new EntityNotFoundException();
         }
         $user->enable();
         $this->save($user);
@@ -44,13 +46,13 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @param string $id
      *
-     * @throws UserNotFoundException
+     * @throws EntityNotFoundException
      */
     public function disableUser(string $id)
     {
         $user = $this->find($id);
         if (empty($user)) {
-            throw new UserNotFoundException();
+            throw new EntityNotFoundException();
         }
         $user->disable();
         $this->save($user);

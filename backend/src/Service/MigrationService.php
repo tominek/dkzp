@@ -20,7 +20,21 @@ class MigrationService
 
     public function getOldDataFromTable($table)
     {
-        print_r($this->oldConnection);
         return $this->oldConnection->query(sprintf('SELECT * FROM %s', $table))->fetchAll();
+    }
+
+    public function truncateAllTables()
+    {
+        $this->connection->query('SET FOREIGN_KEY_CHECKS = 0;')->execute();
+
+        $schemaManager = $this->connection->getSchemaManager();
+        $tables = $schemaManager->listTables();
+        $query = '';
+
+        foreach($tables as $table) {
+            $name = $table->getName();
+            $query .= 'TRUNCATE ' . $name . ';';
+        }
+        $this->connection->executeQuery($query, [], []);
     }
 }

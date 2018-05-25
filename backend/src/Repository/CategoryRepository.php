@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @method Category|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,24 +21,91 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
-    public function save(Category $category): void
+    /**
+     * @param Category $category
+     * @param bool $flush
+     */
+    public function save(Category $category, bool $flush = true): void
     {
-        $this->getEntityManager()->persist($category);
-        $this->getEntityManager()->flush();
+        $this->_em->persist($category);
+        if ($flush) {
+            $this->_em->flush();
+        }
     }
 
-    public function remove(Category $category): void
+    /**
+     * @param string $id
+     *
+     * @throws EntityNotFoundException
+     */
+    public function remove(string $id): void
     {
-        $this->getEntityManager()->remove($category);
-        $this->getEntityManager()->flush();
+        $category = $this->find($id);
+        if (empty($category)) {
+            throw new EntityNotFoundException();
+        }
+        $this->_em->remove($category);
+        $this->_em->flush();
     }
 
-    public function findAllWithBookCount()
+    private function create(string $name, string $description): Category
     {
-        $result = $this->createQueryBuilder('c')
-            //->addSelect('(SELECT COUNT(*) FROM book b WHERE b.category_id = c.id) AS book_count')
-            ->getQuery()
-            ->getResult();
-        return $result;
+        $category = new Category($name, $description);
+        $this->save($category);
+
+        return $category;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return Category
+     */
+    public function createFromRequest(Request $request): Category
+    {
+        $data = $this->getValidatedData($request);
+        return $this->create(
+            $data['name'],
+            $data['desctiption']
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @param string $id
+     *
+     * @return Category
+     *
+     * @throws EntityNotFoundException
+     * @throws \InvalidArgumentException
+     */
+    public function updateFromRequest(Request $request, string $id)
+    {
+        $category = $this->find($id);
+        if (empty($category)) {
+            throw new EntityNotFoundException();
+        }
+
+        $data = $this->getValidatedData($request);
+        $category->setName($data['name'])->setDescription($data['description']);
+        $this->save($category);
+
+        return $category;
+    }
+
+    private function getValidatedData(Request $request): array
+    {
+        try {
+            $data = json_decode($request->getContent(), true);
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException('Invalid request body. ' . $e->getMessage());
+        }
+        if (!array_key_exists("name", $data)) {
+            throw new \InvalidArgumentException("Missing required parameters. Required: name");
+        }
+        if (!array_key_exists("description", $data)) {
+            throw new \InvalidArgumentException("Missing required parameters. Required: description");
+        }
+        return $data;
     }
 }
