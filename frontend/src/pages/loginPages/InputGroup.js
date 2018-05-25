@@ -8,8 +8,8 @@ import { Title } from '../../components'
 class InputGroup extends React.Component {
   render() {
     const {name, type, label, handler, value} = this.props
-    const input = <input id="{name}" className="form-control" type="{type}" value={value} onChange={handler} />
-    const textarea = <textarea id="{name}" className="form-control" type="{type}" value={value} onChange={handler}></textarea>
+    const input = <input id={name} className="form-control" type={type} value={value} onChange={handler} />
+    const textarea = <textarea id={name} className="form-control" type={type} value={value} onChange={handler}></textarea>
     return (
         <div className="form-group">
             <label htmlFor="{name}" >{label}:</label>
