@@ -5,4 +5,6 @@
 
 ## Backend
 
+- Migrations - in BE container run `php bin/console app:migrate-data --truncate-tables`
+
 ### Installation
