@@ -2,62 +2,105 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Title } from '../../components'
 import InputGroup from './InputGroup.js'
+import { Alert } from 'react-bootstrap';
+import { backend_url } from '../../config'
+import { Route, Redirect } from 'react-router'
+
+
+const msgs = {
+  'wrongEmail': 'Uživatelský účet s tímto přihlašovacím e-mailem v knihovně nemáme. Zkontrolujte prosím správnost zadané e-mailové adresy.',
+  'wrongPassword': 'Vámi zadané heslo není správné.',
+}
 
 class LostPasswordPage extends React.Component {
 
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
 
-    this.msgs = {
-        'error': 'Uživatelský účet s těmito údaji v knihovně není. Zkontrolujte prosím správnost zadané e-mailové adresy.',
-        'success': 'Na Váš email byly zaslány další informace.',
-        // 'validate': 'E-mailová adresa není platná. Zkontrolujte ji, prosím, na překlepy',
-    }
     this.state = {
         success: false,
-        email: ''
+        // TODO odebrat
+        email: '',
+        password: '',
+        alerts: [],
     };
 
+    
   }
-  handleChange(e){
-    this.setState({email: e.target.value.toLowerCase()})
-}
-handleSubmit(e){
+  // renderRedirect = () => {
+  //   if (this.state.success) {
+  //     return <Redirect to='/' />
+  //   }
+  // }
+  handleChange = (e) => {
+    const object = {}
+    object[e.target.id] = e.target.value
+    this.setState(object)
+  }
+  handleSubmit  = (e) => {
+    // TODO loading
+    const { history } = this.props
     e.preventDefault();
 
+    // Empty alerts from last submit
+    this.state.alerts = []
+    
       // TODO validate e-mail
-      // TODO backend magic here
-      let a = true
+      fetch(`${backend_url}/login`, {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: this.state.email.trim(),
+          password: this.state.password.trim()
+        })
+      })
+      // .then(response => response)
+      .then(
+        (response) => {
+          if (response.ok) {
+            history.push('/')
+          }
 
-      if (a){
-        console.log('A name was submitted: ' + this.state.email)
-        this.setState({success: true})
-      } else {
-          // TODO errors
-        this.state.errorrs = this.msgs.error
-      }
+          throw new Error(response.json().error)
+        },
+        (error) => {
+          throw new Error()
+        }
+      )
+      .catch(
+        (error) => {
+          this.setState({
+            alerts: [...this.state.alerts, {
+              style: 'danger',
+              message: msgs.wrongEmail
+            }]
+          })
+        }
+      )
   }
   render() {
-    const form = <form onSubmit={this.handleSubmit}>
-      <InputGroup name="email" type="type" label="Váš e-mail nebo přihlašovací jméno" handler={this.handleChange} value={this.state.firstName} />
-      <InputGroup name="password" type="password" label="Vaše heslo" handler={this.handleChange} value={this.state.firstName} />
-      <input type="submit" className="btn btn-primary" value="Přihlásit se" />
-      </form>
-
-    const successMsg = <p>{this.msgs.success}</p>
-    console.log(this.state)
     return (
       <div className="login-page">
-        <Title title={'Zapomenuté heslo | DKZP'} />
+        <Title title={'Přihlášení | DKZP'} />
 
         <h2>Přihlášení do knihovny</h2>
-        <p>Pokud jste zapomněli své heslo, máte možnost si nechat vygenerovat nové zadáním údajů v následujícím formuláři. Nové heslo Vám bude zasláno na mail, který jste uvedli při registraci. V naléhavých případech, kdy tento postup nebude fungovat, pište administrátorovi knihovny na adresu <a href="mailto:knihovna@mathilda.cz">knihovna@mathilda.cz</a>.</p>
+        
+        {this.state.alerts.map(alert => (
+          <Alert bsStyle={alert.style}>
+            {alert.message}
+          </Alert> 
+        ))}
 
-        {this.state.errors ? <p>{this.state.errors}</p> : null }
-
-        {this.state.success ? successMsg : form}
+         {/* {this.renderRedirect()} */}
+        
+        <form onSubmit={this.handleSubmit}>
+        <InputGroup name="email" type="type" label="Váš e-mail nebo přihlašovací jméno" handler={this.handleChange} value={this.state.firstName} />
+        <InputGroup name="password" type="password" label="Vaše heslo" handler={this.handleChange} value={this.state.firstName} />
+        <input type="submit" className="btn btn-primary" value="Přihlásit se" />
+        </form>
 
       </div>
     )
