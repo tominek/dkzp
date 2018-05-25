@@ -26,7 +26,7 @@ class BookController extends FOSRestController
 
     /**
      * @Route("/book", methods={"GET"}, name="books")
-     * @IsGranted("ROLE_USER")
+     * IsGranted("ROLE_USER")
      *
      * @param Request $request
      *

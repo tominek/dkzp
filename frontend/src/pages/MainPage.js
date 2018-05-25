@@ -4,6 +4,7 @@ import {Switch, Route, BrowserRouter as Router} from 'react-router-dom'
 import {Grid, Row, Col} from 'react-bootstrap'
 import { Title, Header } from '../components'
 import * as pages from './contentPages'
+import * as adminPages from './adminPages'
 import { FourZeroFour } from './'
 
 class MainPage extends React.Component {
@@ -24,6 +25,7 @@ class MainPage extends React.Component {
                 <Route exact path='/oblibene-knihy' component={pages.FavoriteBooksPage} />
                 <Route exact path='/nove-knihy' component={pages.NewBooksPage} />
                 <Route exact path='/napoveda' component={pages.HelpPage} />
+                <Route exact path='/admin/nova-kniha' component={adminPages.NewBookPage} />
                 <Route component={FourZeroFour} />
               </Switch>
             </Col>

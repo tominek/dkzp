@@ -20,18 +20,17 @@ class LostPasswordPage extends React.Component {
         email: ''
     };
 
-    
   }
   handleChange(e){
     this.setState({email: e.target.value.toLowerCase()})
 }
 handleSubmit(e){
     e.preventDefault();
-    
+
       // TODO validate e-mail
       // TODO backend magic here
       let a = true
-      
+
       if (a){
         console.log('A name was submitted: ' + this.state.email)
         this.setState({success: true})
@@ -55,9 +54,9 @@ handleSubmit(e){
 
         <h2>Přihlášení do knihovny</h2>
         <p>Pokud jste zapomněli své heslo, máte možnost si nechat vygenerovat nové zadáním údajů v následujícím formuláři. Nové heslo Vám bude zasláno na mail, který jste uvedli při registraci. V naléhavých případech, kdy tento postup nebude fungovat, pište administrátorovi knihovny na adresu <a href="mailto:knihovna@mathilda.cz">knihovna@mathilda.cz</a>.</p>
-        
+
         {this.state.errors ? <p>{this.state.errors}</p> : null }
-        
+
         {this.state.success ? successMsg : form}
 
       </div>

@@ -5,21 +5,21 @@ import './BookItem.css'
 
 const BookItem = ({ book }) => (
   <div className="book-item">
-    <h3 className="book-item__title">{book.title}</h3>
+    <h3 className="book-item__title">{book.name}</h3>
     <div className="book-item__body">
       <div>
         <b>Autor: </b>
-        <Link to={`/autor/${book.author.id}`}>{book.author.name}</Link>
+        {/* <Link to={`/autor/${book.author.id}`}>{book.author.name}</Link> */}
       </div>
       <div>
         <b>Kategorie: </b>
-        {book.categories.map((category) => (
+        {/* {book.categories.map((category) => (
           <Link to={`/category/${category.id}`}>{category.name}</Link>
-        ))}
+        ))} */}
       </div>
       <div>
         <b>Staženo: </b>
-        <span>{`${book.downloaded}x`}</span>
+        <span>{`${book.downloadCount}x`}</span>
       </div>
       <div>
         <b>Anotace: </b>
@@ -27,7 +27,7 @@ const BookItem = ({ book }) => (
       </div>
       <div>
         <b>Přidáno: </b>
-        <p>{moment(book.createdAt).format('DD. MM. YYYY')}</p>
+        <p>{moment(book.created.date).format('DD. MM. YYYY')}</p>
       </div>
       <div className="buttons">
         <button>Přidat k oblíbeným</button>
