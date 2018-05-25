@@ -1,14 +1,14 @@
-/* @flow */
-import Helmet from 'react-helmet'
 import React from 'react'
-import PropTypes from 'prop-types'
 
-const Title = ({ message, meta }: any) => (
-  <Helmet title={message} meta={meta} />
-)
-
-Title.propTypes = {
-  message: PropTypes.string.isRequired,
+class Title extends React.Component {
+  componentDidMount() {
+    document.title = this.props.title
+  }
+  render() {
+    return (
+      <div/>
+    )
+  }
 }
 
 export default Title
