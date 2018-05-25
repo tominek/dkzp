@@ -19,8 +19,12 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
-    public function getEntityManager()
+    public function findAllWithBookCount()
     {
-        return $this->getEntityManager();
+        $result = $this->createQueryBuilder('c')
+            //->addSelect('(SELECT COUNT(*) FROM book b WHERE b.category_id = c.id) AS book_count')
+            ->getQuery()
+            ->getResult();
+        return $result;
     }
 }
