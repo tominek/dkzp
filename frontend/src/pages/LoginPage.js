@@ -28,6 +28,10 @@ class LoginPage extends React.Component {
                 <Route exact path='/prihlaseni/registrace' component={RegistrationPage} />
                 <Route exact path='/prihlaseni/zapomenute-heslo' component={LostPasswordPage} />
                 <Route exact path='/prihlaseni/pomoc-s-prihlasenim' component={HelpPage} />
+                {/* TODO
+                - link na obnovu hesla
+                - link na potvrzeni emailu
+                 */}
               </Switch>
             </Col>
           </Row>

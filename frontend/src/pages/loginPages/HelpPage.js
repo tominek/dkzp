@@ -25,6 +25,7 @@ class HelpPage extends React.Component {
 
         <Faq question="Problém: Systém říká, že mé údaje nejsou platné" answer="Řešení: Pravděpodobně máte špatné přihlašovací jméno. Zkontrolujte, máte-li vypnutý CapsLock, zapnutý NumLock a správně rozmístěná písmena Z a Y na Vaší klávesnici." />
 
+        // TODO odkaz na reset hesla
         <Faq 
         question="Problém: Systém říká, že zadané heslo není platné." 
         answer="Řešení: V takovém případě jste zadali nesprávné heslo. Zkuste zadat heslo znovu, zkontrolujte, máte-li vypnutý CapsLock, zapnutý NumLock a správně rozmístěná písmena Z a Y na Vaší klávesnici.V případě, že pokus opět skončí neúspěchem, nechte si zaslat nové heslo na email. <a href='' title='odkazem přejdete na formulář pro zaslání hesla'>formulář pro zaslání nového hesla</a>."

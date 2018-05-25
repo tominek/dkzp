@@ -27,11 +27,6 @@ class LostPasswordPage extends React.Component {
 
     
   }
-  // renderRedirect = () => {
-  //   if (this.state.success) {
-  //     return <Redirect to='/' />
-  //   }
-  // }
   handleChange = (e) => {
     const object = {}
     object[e.target.id] = e.target.value
@@ -57,7 +52,6 @@ class LostPasswordPage extends React.Component {
           password: this.state.password.trim()
         })
       })
-      // .then(response => response)
       .then(
         (response) => {
           if (response.ok) {
@@ -70,8 +64,7 @@ class LostPasswordPage extends React.Component {
           throw new Error()
         }
       )
-      .catch(
-        (error) => {
+      .catch(error => {
           this.setState({
             alerts: [...this.state.alerts, {
               style: 'danger',
@@ -93,14 +86,17 @@ class LostPasswordPage extends React.Component {
             {alert.message}
           </Alert> 
         ))}
-
-         {/* {this.renderRedirect()} */}
         
         <form onSubmit={this.handleSubmit}>
-        <InputGroup name="email" type="type" label="Váš e-mail nebo přihlašovací jméno" handler={this.handleChange} value={this.state.firstName} />
-        <InputGroup name="password" type="password" label="Vaše heslo" handler={this.handleChange} value={this.state.firstName} />
-        <input type="submit" className="btn btn-primary" value="Přihlásit se" />
+          <InputGroup name="email" type="type" label="Váš e-mail nebo přihlašovací jméno" handler={this.handleChange} value={this.state.firstName} reguired />
+          <InputGroup name="password" type="password" label="Vaše heslo" handler={this.handleChange} value={this.state.firstName} reguired />
+          <input type="submit" className="btn btn-primary" value="Přihlásit se" />
         </form>
+
+        {/* TODO jako návštěvník */}
+        <p>
+          <a href="">Přihlásit se jako návštěvník</a>
+        </p>
 
       </div>
     )

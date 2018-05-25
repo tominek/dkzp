@@ -12,6 +12,7 @@ class App extends React.Component {
         <Router>
           <div className="app-container">
             <Switch>
+              {/* TODO if logged in then alwats show MainPage */}
               <Route path='/prihlaseni' component={pages.LoginPage} />
               <Route path='/' component={pages.MainPage} />
               <Route component={pages.FourZeroFour} />
