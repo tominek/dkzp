@@ -31,7 +31,7 @@ class BookController extends FOSRestController
      */
     public function getAll(Request $request): JsonResponse
     {
-        $maxLimit = 1;
+        $maxLimit = 50;
         $limit = (int) $request->query->get('limit');
         if ($limit > $maxLimit) {
             $limit = $maxLimit;
