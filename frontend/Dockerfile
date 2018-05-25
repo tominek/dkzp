@@ -1,5 +1,8 @@
 FROM node:9
-WORKDIR /usr/src/app
+WORKDIR /app
 RUN npm i -g yarn
-COPY . .
+COPY package.json yarn.lock ./
 RUN yarn
+COPY . .
+CMD [ "yarn", "run", "start" ]
+EXPOSE 80

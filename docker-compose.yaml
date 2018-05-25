@@ -26,7 +26,7 @@ services:
       - traefik.port=80
       - traefik.frontend.rule=Host:dkzp-backend.local
     volumes:
-      - ./backend:/var/www/html
+      - ./backend:/var/www
   frontend:
     build: ./frontend
     networks:
@@ -36,9 +36,9 @@ services:
       - traefik.port=80
       - traefik.frontend.rule=Host:dkzp-frontend.local
     volumes:
-      - ./frontend
+      - ./frontend:/app
   db:
-    image: mysql:5.7
+    image: mariadb:10.3
     volumes:
      - db-data:/var/lib/mysql
     networks:
