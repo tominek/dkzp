@@ -2,8 +2,8 @@
 
 namespace App\Controller\Admin;
 
-use App\Repository\Exception\UserNotFoundException;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,7 +38,7 @@ class UserAdministrationController extends Controller
     {
         try {
             $this->userRepository->enableUser($id);
-        } catch (UserNotFoundException $e) {
+        } catch (EntityNotFoundException $e) {
             return $this->json([
                 "error" => 'invalid_user',
                 "message" => $e->getMessage()
@@ -60,7 +60,7 @@ class UserAdministrationController extends Controller
     {
         try {
             $this->userRepository->disableUser($id);
-        } catch (UserNotFoundException $e) {
+        } catch (EntityNotFoundException $e) {
             return $this->json([
                 "error" => 'invalid_user',
                 "message" => $e->getMessage()

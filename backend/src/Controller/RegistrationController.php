@@ -34,7 +34,11 @@ class RegistrationController extends Controller
      */
     public function register(Request $request): Response
     {
-        $this->userProvider->createFromRequest($request);
+        try {
+            $this->userProvider->createFromRequest($request);
+        } catch (\InvalidArgumentException $e) {
+            return $this->json(["message" => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
 
         return new Response(null, Response::HTTP_CREATED);
     }
