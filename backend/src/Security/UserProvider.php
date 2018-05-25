@@ -9,6 +9,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validation;
 
 class UserProvider implements UserProviderInterface
 {
@@ -86,33 +88,45 @@ class UserProvider implements UserProviderInterface
 
     /**
      * @param Request $request
+     *
+     * @throws \InvalidArgumentException
      */
     public function createFromRequest(Request $request)
     {
         try {
             $data = json_decode($request->getContent(), true);
-            $this->validateData($data);
-            $this->create(
-                $data['firstname'],
-                $data['lastname'],
-                $data['username'],
-                $data['password']
-            );
         } catch (\Exception $e) {
-            throw new \InvalidArgumentException('Invalid request body.' . $e->getMessage(), 0, $e);
+            throw new \InvalidArgumentException('Invalid request body. ' . $e->getMessage());
         }
+        $this->validateCreateData($data);
+        $this->create(
+            $data['firstname'],
+            $data['lastname'],
+            $data['username'],
+            $data['password']
+        );
     }
 
-    private function validateData(array $data)
+    /**
+     * @param array $data
+     *
+     * @throws \InvalidArgumentException
+     */
+    private function validateCreateData(array $data)
     {
-        $missing = [];
-        if (!key_exists('firstname', $data)) $missing[] = 'firstname';
-        if (!key_exists('lastname', $data)) $missing[] = 'lastname';
-        if (!key_exists('username', $data)) $missing[] = 'username';
-        if (!key_exists('password', $data)) $missing[] = 'password';
+        $validator = Validation::createValidator();
 
-        if (!empty($missing)) {
-            throw new \InvalidArgumentException("Missing required parameters " . implode(", ", $missing) . ".");
+        $constraint = new Assert\Collection(array(
+            'firstname' => new Assert\NotBlank(),
+            'lastname' => new Assert\NotBlank(),
+            'username' => new Assert\Email(),
+            'password' => new Assert\Length(array('min' => 8))
+        ));
+
+        $violations = $validator->validate($data, $constraint);
+
+        if ($violations->count() > 0) {
+            throw new \InvalidArgumentException("Missing required parameters. Required: firstname, lastname, username, password");
         }
     }
 }
