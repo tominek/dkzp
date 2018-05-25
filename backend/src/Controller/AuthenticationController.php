@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -34,9 +33,9 @@ class AuthenticationController extends Controller
     {
         $user = $this->getUser();
         if (empty($user)) {
-            return new Response(null, Response::HTTP_UNAUTHORIZED);
+            return $this->json(null, Response::HTTP_UNAUTHORIZED);
         }
-        return new JsonResponse($user);
+        return $this->json($user);
     }
 
     /**

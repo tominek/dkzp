@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Repository\CategoryRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class CategoryController extends Controller
 {
@@ -19,14 +19,17 @@ class CategoryController extends Controller
     }
 
     /**
-     * @Route("/categories", name="categories")
-     * @Method("POST")
+     * @Route("/categories", name="categories", methods={"POST"})
+     * @IsGranted("ROLE_USER")
+     *
+     * @return Response
      */
     public function listAction()
     {
         $data = $this->categoryRepository->findAll();
+
         return $this->json([
             'data' => $data,
-        ], Response::HTTP_OK);
+        ]);
     }
 }

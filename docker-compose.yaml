@@ -61,7 +61,9 @@ services:
       - ./pok.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - overlay
-    restart: always
+    restart: on-failure
+    ports:
+      - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: root
