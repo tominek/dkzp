@@ -1,0 +1,51 @@
+version: '3.4'
+networks:
+  overlay:
+volumes:
+  db-data:
+services:
+  proxy:
+    image: traefik:1.6
+    command: |-
+      -c /dev/null
+      --docker
+      --docker.watch
+      --docker.exposedByDefault=false
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - overlay
+    ports:
+      - 80:80
+  backend:
+    build: ./backend
+    networks:
+      - overlay
+    labels:
+      - traefik.enable=true
+      - traefik.port=80
+      - traefik.frontend.rule=Host:dkzp-backend.local
+    volumes:
+      - ./backend:/var/www/html
+  frontend:
+    build: ./frontend
+    networks:
+      - overlay
+    labels:
+      - traefik.enable=true
+      - traefik.port=80
+      - traefik.frontend.rule=Host:dkzp-frontend.local
+    volumes:
+      - ./frontend
+  db:
+    image: mysql:5.7
+    volumes:
+     - db-data:/var/lib/mysql
+    networks:
+      - overlay
+    restart: always
+    environment:
+     MYSQL_ROOT_PASSWORD: root
+     MYSQL_DATABASE: test
+     MYSQL_USER: test
+     MYSQL_PASSWORD: test
