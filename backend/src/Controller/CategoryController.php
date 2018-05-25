@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityNotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -36,7 +35,10 @@ class CategoryController extends Controller
         try {
             $this->categoryRepository->createFromRequest($request);
         } catch (\InvalidArgumentException $e) {
-            return $this->json(["message" => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+            return $this->json([
+                "error" => "invalid_request",
+                "message" => $e->getMessage()
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         return $this->json([], Response::HTTP_OK);
@@ -58,7 +60,10 @@ class CategoryController extends Controller
         } catch (EntityNotFoundException $e) {
             return $this->json([], Response::HTTP_NOT_FOUND);
         } catch (\InvalidArgumentException $e) {
-            return $this->json(["message" => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+            return $this->json([
+                "error" => "invalid_request",
+                "message" => $e->getMessage()
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         return $this->json([], Response::HTTP_OK);
@@ -84,7 +89,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * @Route("/category/list", name="category_list")
+     * @Route("/category", name="category_list")
      * @Method("GET")
      */
     public function listAction()

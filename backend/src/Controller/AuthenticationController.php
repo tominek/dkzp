@@ -33,7 +33,9 @@ class AuthenticationController extends Controller
     {
         $user = $this->getUser();
         if (empty($user)) {
-            return $this->json(null, Response::HTTP_UNAUTHORIZED);
+            return $this->json([
+                "error" => "invalid_credentials"
+            ], Response::HTTP_UNAUTHORIZED);
         }
         return $this->json($user);
     }

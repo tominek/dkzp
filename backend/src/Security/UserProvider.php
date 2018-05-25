@@ -4,6 +4,8 @@ namespace App\Security;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Security\Exception\UserAlreadyExistsException;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -45,13 +47,19 @@ class UserProvider implements UserProviderInterface
      * @param string $password
      *
      * @return User
+     *
+     * @throws \InvalidArgumentException
      */
     public function create(string $firstname, string $lastname, string $username, string $password): User
     {
         $user = new User($username, $firstname, $lastname, $password, ['ROLE_USER']);
 
         $user->setPassword($this->encoder->encodePassword($user, $password));
-        $this->userRepository->save($user);
+        try {
+            $this->userRepository->save($user);
+        } catch (UniqueConstraintViolationException $e) {
+            throw new \InvalidArgumentException("User already exists.");
+        }
 
         return $user;
     }

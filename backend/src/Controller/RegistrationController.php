@@ -37,7 +37,10 @@ class RegistrationController extends Controller
         try {
             $this->userProvider->createFromRequest($request);
         } catch (\InvalidArgumentException $e) {
-            return $this->json(["message" => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+            return $this->json([
+                "error" => "invalid_request",
+                "message" => $e->getMessage()
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         return new Response(null, Response::HTTP_CREATED);
