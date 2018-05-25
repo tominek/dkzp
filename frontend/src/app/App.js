@@ -17,7 +17,7 @@ class App extends React.Component {
           <div className="app-container">
             <Switch>
               <Route exact path='/prihlaseni' component={pages.LoginPage} />
-              <Route path='/' component={pages.HomePage} />
+              <Route path='/' component={pages.MainPage} />
               <Route component={pages.FourZeroFour} />
             </Switch>
           </div>
