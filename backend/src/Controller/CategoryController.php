@@ -26,7 +26,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * @Route("/categories", name="categories", methods={"POST"})
+     * @Route("/category/create", name="category_create", methods={"POST"})
      * @IsGranted("ROLE_USER")
      */
     public function createAction(Request $request)
