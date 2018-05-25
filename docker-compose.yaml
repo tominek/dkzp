@@ -29,16 +29,16 @@ services:
       - ./backend:/var/www
     environment:
       DATABASE_URL: mysql://test:test@db:3306/test
-  frontend:
-    build: ./frontend
-    networks:
-      - overlay
-    labels:
-      - traefik.enable=true
-      - traefik.port=80
-      - traefik.frontend.rule=Host:dkzp-frontend.local
-    volumes:
-      - ./frontend:/app
+  # frontend:
+  #   build: ./frontend
+  #   networks:
+  #     - overlay
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.port=80
+  #     - traefik.frontend.rule=Host:dkzp-frontend.local
+  #   volumes:
+  #     - ./frontend:/app
   db:
     image: mariadb:10.3
     volumes:
