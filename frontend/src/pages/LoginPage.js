@@ -7,7 +7,7 @@ class LoginPage extends React.Component {
     return (
       <div className="login-page">
         <Title title={'Přihlašovací stránka | DKZP'} />
-        login page ze jo
+        <h1>login page ze jo</h1>
       </div>
     )
   }

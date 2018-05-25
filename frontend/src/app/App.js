@@ -1,5 +1,6 @@
 import React from 'react'
 import {Switch, Route, BrowserRouter as Router} from 'react-router-dom'
+import { Header, Footer } from '../components'
 import logo from '../logo.svg'
 import * as pages from '../pages'
 import './App.css'
@@ -10,17 +11,18 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo"/>
-          <h1 className="App-title">Welcome to React</h1>
         </header>
+        <Header />
         <Router>
           <div className="app-container">
-            {/* <Header /> */}
             <Switch>
-              <Route exact path='/' component={pages.LoginPage} />
+              <Route exact path='/prihlaseni' component={pages.LoginPage} />
+              <Route path='/' component={pages.HomePage} />
               <Route component={pages.FourZeroFour} />
             </Switch>
           </div>
         </Router>
+        <Footer />
       </div>
     );
   }
