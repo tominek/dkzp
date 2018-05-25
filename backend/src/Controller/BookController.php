@@ -21,11 +21,11 @@ class BookController extends FOSRestController
     public function createBook(Request $request)
     {
         $book = new Book();
-        $book->setName($request->get('name'));
+        $book->setName('Zla literatura');
         $em = $this->getDoctrine()->getManager();
         $em->persist($book);
         $em->flush();
 
-        return $this->view($book, Response::HTTP_CREATED)->getResponse();
+        return $this->view($book, Response::HTT)->getResponse();
     }
 }

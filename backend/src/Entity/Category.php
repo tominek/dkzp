@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
  */
-class Category
+class Category implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -36,5 +36,13 @@ class Category
         $this->name = $name;
 
         return $this;
+    }
+
+    function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name
+        ];
     }
 }
