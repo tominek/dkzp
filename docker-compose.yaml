@@ -27,6 +27,8 @@ services:
       - traefik.frontend.rule=Host:dkzp-backend.local
     volumes:
       - ./backend:/var/www
+    environment:
+      DATABASE_URL: mysql://test:test@db:3306/test
   frontend:
     build: ./frontend
     networks:
