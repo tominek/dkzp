@@ -17,9 +17,6 @@ class CategoryController extends Controller
     /** @var CategoryRepository */
     private $categoryRepository;
 
-    /** @var EntityManager */
-    private $entityManager;
-
     public function __construct(CategoryRepository $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
@@ -31,8 +28,6 @@ class CategoryController extends Controller
      */
     public function createAction(Request $request)
     {
-        $this->entityManager = $this->getDoctrine()->getManager();
-
         $name = $request->request->get('name');
         if (!$name) {
             return $this->json([], Response::HTTP_BAD_REQUEST);
@@ -40,8 +35,7 @@ class CategoryController extends Controller
         if ($this->categoryRepository->findBy(['name' => $name])) {
             return $this->json([], Response::HTTP_IM_USED);
         }
-        $this->entityManager->persist(new Category($name));
-        $this->entityManager->flush();
+        $this->categoryRepository->save(new Category($name));
 
         return $this->json([], Response::HTTP_OK);
     }
@@ -52,8 +46,6 @@ class CategoryController extends Controller
      */
     public function updateAction(Request $request)
     {
-        $this->entityManager = $this->getDoctrine()->getManager();
-
         $id = $request->get('id');
         $name = $request->get('name');
         if (!$name || !$id) {
@@ -67,8 +59,7 @@ class CategoryController extends Controller
             return $this->json([], Response::HTTP_NOT_FOUND);
         }
         $category->setName($name);
-        $this->entityManager->persist($category);
-        $this->entityManager->flush();
+        $this->categoryRepository->save($category);
 
         return $this->json([], Response::HTTP_OK);
     }
@@ -79,8 +70,6 @@ class CategoryController extends Controller
      */
     public function deleteAction(Request $request)
     {
-        $this->entityManager = $this->getDoctrine()->getManager();
-
         $id = $request->get('id');
         if (!$id) {
             return $this->json([], Response::HTTP_BAD_REQUEST);
@@ -89,8 +78,8 @@ class CategoryController extends Controller
         if (!$category instanceof Category) {
             return $this->json([], Response::HTTP_NOT_FOUND);
         }
-        $this->entityManager->remove($category);
-        $this->entityManager->flush();
+
+        $this->categoryRepository->remove($category);
 
         return $this->json([], Response::HTTP_OK);
     }
