@@ -37,6 +37,7 @@ class DefaultDataFixture extends Fixture
             'admin'
         );
         $admin->setRoles([0 => 'ROLE_ADMIN']);
+        $admin->enable();
 
         $user = $this->userProvider->create(
             'philip',
@@ -44,6 +45,7 @@ class DefaultDataFixture extends Fixture
             'philip@dkzp.local',
             'password'
         );
+        $user->enable();
 
         $manager->persist($admin);
         $manager->persist($user);

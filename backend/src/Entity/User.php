@@ -3,17 +3,17 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements UserInterface, \JsonSerializable
+class User implements AdvancedUserInterface, \JsonSerializable
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="string")
      */
     private $id;
 
@@ -62,6 +62,13 @@ class User implements UserInterface, \JsonSerializable
     private $registrationDate;
 
     /**
+     * @ORM\Column(type="boolean")
+     *
+     * @var bool
+     */
+    private $enabled;
+
+    /**
      * User constructor.
      *
      * @param string $username
@@ -76,8 +83,9 @@ class User implements UserInterface, \JsonSerializable
         $this->firstname = $firstname;
         $this->lastname = $lastname;
         $this->password = $password;
-        $this->registrationDate = new \DateTime();
         $this->roles = $roles;
+        $this->registrationDate = new \DateTime();
+        $this->enabled = false;
     }
 
     public function getId()
@@ -176,5 +184,47 @@ class User implements UserInterface, \JsonSerializable
             'username' => $this->username,
             'roles' => $this->roles,
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isEnabled()
+    {
+        return $this->enabled;
+    }
+
+    public function enable()
+    {
+        $this->enabled = true;
+    }
+
+    public function disable()
+    {
+        $this->enabled = false;
     }
 }
