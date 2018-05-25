@@ -15,10 +15,31 @@ class Book implements \JsonSerializable
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     public $id;
+
     /**
      * @ORM\Column(type="string", length=100)
      */
     public $name;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public $state;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    public $created;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    public $updated;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    public $downloadCount;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="books")
@@ -80,7 +101,11 @@ class Book implements \JsonSerializable
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'categories' => $this->categories
+            'downloadCount' => $this->downloadCount,
+            'categories' => $this->categories,
+            'updated' => $this->updated,
+            'created' => $this->created,
+            'state' => $this->state
         ];
     }
 }
