@@ -35,6 +35,10 @@ const routes = [
     link: '/autori'
   },
   {
+    title: 'Nápověda',
+    link: '/napoveda'
+  },
+  {
     title: 'Úvod',
     link: '/pes'
   },

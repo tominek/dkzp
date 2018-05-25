@@ -17,6 +17,7 @@ class MainPage extends React.Component {
           <Route exact path='/kontakt' component={pages.ContactPage} />
           <Route exact path='/oblibene-knihy' component={pages.FavoriteBooksPage} />
           <Route exact path='/nove-knihy' component={pages.NewBooksPage} />
+          <Route exact path='/napoveda' component={pages.HelpPage} />
           <Route component={FourZeroFour} />
         </Switch>
       </div>
