@@ -31,6 +31,7 @@ services:
       - ./backend/docker/etc/apache2/sites-enabled:/etc/apache2/sites-enabled
     environment:
       DATABASE_URL: mysql://root:root@db:3306/test
+      DATABASE_URL_OLD: mysql://root:root@db2:3306/root
   # frontend:
   #   build: ./frontend
   #   networks:
