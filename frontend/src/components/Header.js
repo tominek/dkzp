@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { Link } from 'react-router-dom'
+import { Nav, NavItem } from 'react-bootstrap'
+
 import actions from '../redux/app/actions'
 import './Header.css'
 
@@ -43,23 +45,14 @@ class Header extends React.Component {
     const { openedMenu, toggleMenu } = this.props
     return (
       <header className="main-page-header">
-        <button
-          className="main-page-header__button"
-          aria-expanded={openedMenu ? true : false}
-          onClick={toggleMenu}
-        >
-          Menu
-        </button>
-        <nav
-          role="navigation"
-          className="main-page-header__nav"
-        >
-          <ul className={openedMenu ? 'is-active' : ''}>
-            {routes.map((route) => (
-              <li><Link to={route.link}>{route.title}</Link></li>
-            ))}
-          </ul>
-        </nav>
+        <Nav>
+          {routes.map((route) => (
+            <NavItem componentClass={Link} href={route.link} to={route.link}>
+              {route.title}
+            </NavItem>
+          ))}
+        </Nav>
+
       </header>
     )
   }
