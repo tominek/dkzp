@@ -38,6 +38,12 @@ class UserProvider implements UserProviderInterface
         $this->encoder = $encoder;
     }
 
+    public function createWithoutFlush(User $user, bool $flush): void
+    {
+        $user->setPassword($this->encoder->encodePassword($user, $user->getPassword()));
+        $this->userRepository->save($user, $flush);
+    }
+
     /**
      * Creates and return User.
      *
