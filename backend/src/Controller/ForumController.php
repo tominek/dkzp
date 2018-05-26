@@ -94,8 +94,6 @@ class ForumController extends Controller
     {
         $data = $this->forumService->getAll();
 
-        return $this->json([
-            'data' => $data,
-        ], Response::HTTP_OK);
+        return $this->json($data, Response::HTTP_OK);
     }
 }
