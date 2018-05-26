@@ -57,7 +57,7 @@ class BookCreatorService
 
             $categories = [];
             foreach ($data['categories'] as $categoryId) {
-                $categories = $this->categoryRepository->findIfExists($categoryId);
+                $categories[] = $this->categoryRepository->findIfExists($categoryId);
             }
         } catch (\Exception $e) {
             throw new \InvalidArgumentException('Invalid request body. ' . $e->getMessage());
@@ -80,7 +80,7 @@ class BookCreatorService
         $constraint = new Assert\Collection(array(
             'name' => new Assert\NotBlank(),
             'author' => new Assert\NotBlank(),
-            'categories' => new Assert\Collection()
+            'categories' => new Assert\NotNull()
         ));
 
         $violations = $validator->validate($data, $constraint);
