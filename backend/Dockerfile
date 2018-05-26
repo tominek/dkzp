@@ -5,7 +5,7 @@ RUN apt-get update \
  && apt-get install -y git zlib1g-dev \
  && rm -rf /var/lib/apt/lists/* \
  && docker-php-ext-install opcache zip pdo pdo_mysql \
- && a2enmod rewrite
+ && a2enmod rewrite headers
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY ./docker /

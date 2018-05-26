@@ -1,6 +1,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    locale: 'cs'
 
 services:
     # default configuration for services in *this* file
@@ -28,3 +29,23 @@ services:
 
     sensio_framework_extra.view.listener:
         alias: Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener
+
+    Doctrine\DBAL\Connection:
+        factory: Doctrine\DBAL\DriverManager::getConnection
+        arguments:
+            $params:
+                driver: pdo_mysql
+                url: '%env(DATABASE_URL)%'
+                charset: UTF8
+    db.old:
+        class: Doctrine\DBAL\Connection
+        factory: Doctrine\DBAL\DriverManager::getConnection
+        arguments:
+            $params:
+                driver: pdo_mysql
+                url: '%env(DATABASE_URL_OLD)%'
+                charset: UTF8
+
+    App\Service\MigrationService:
+        arguments:
+            $old: '@db.old'
