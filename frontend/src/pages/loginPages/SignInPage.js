@@ -54,7 +54,7 @@ class LostPasswordPage extends React.Component {
         })
       })
       .then( response => {
-        if (!response.ok) { 
+        if (!response.ok) {
             throw response 
         }
         return response.json()  //we only get here if there is no error
@@ -62,7 +62,6 @@ class LostPasswordPage extends React.Component {
       .then( json => {
         // TODO if remember me, use localstorage
         sessionStorage.setItem('user_id', json.id)
-        sessionStorage.setItem('user_name', json.firstname + json.lastname)
         sessionStorage.setItem('user_roles', json.roles.join(','))
         history.push('/')
       })

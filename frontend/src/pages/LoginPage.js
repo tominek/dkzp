@@ -8,6 +8,13 @@ import * as loginPages from './loginPages'
 
 class LoginPage extends React.Component {
   render() {
+
+    // If the user is logged in, redirect him to app
+    const { history } = this.props
+    if (sessionStorage.getItem('user_id')){
+      history.push('/')
+    }
+    
     return (
       <div className="login-page">
         <Title title={'Přihlašovací stránka | DKZP'} />

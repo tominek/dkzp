@@ -8,7 +8,15 @@ import * as adminPages from './adminPages'
 import { FourZeroFour } from './'
 
 class MainPage extends React.Component {
+
+  
   render() {
+
+    // If the user is not logged in, redirect him to login
+    const { history } = this.props
+    if (! sessionStorage.getItem('user_id')){
+      history.push('/prihlaseni')
+    }
     return (
       <div className="main-page">
         <Grid>
