@@ -35,4 +35,26 @@ class AuthorRepository extends ServiceEntityRepository
         }
         return $author;
     }
+
+    public function save(Author $author)
+    {
+        $this->_em->persist($author);
+        $this->_em->flush();
+    }
+
+    /**
+     * @param string $name
+     * @param string $description
+     * @param \DateTime $born
+     * @param \DateTime|null $died
+     *
+     * @return Author
+     */
+    public function create(string $name, string $description, \DateTime $born, \DateTime $died = null): Author
+    {
+        $author = new Author($name, $description, $born, $died);
+        $this->save($author);
+
+        return $author;
+    }
 }

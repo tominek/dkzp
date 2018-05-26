@@ -43,7 +43,7 @@ class BookController extends FOSRestController
      *
      * @return JsonResponse
      */
-    public function getAll(Request $request): JsonResponse
+    public function listAction(Request $request): JsonResponse
     {
         $maxLimit = 50;
         $limit = (int)$request->query->get('limit');
@@ -71,7 +71,7 @@ class BookController extends FOSRestController
      *
      * @return JsonResponse
      */
-    public function createBook(Request $request): JsonResponse
+    public function createAction(Request $request): JsonResponse
     {
         try {
             $book = $this->bookCreatorService->createFromRequest($request);

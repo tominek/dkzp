@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ReportRepository")
  */
-class Report
+class Report implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -46,17 +46,17 @@ class Report
      *
      * @var \DateTime
      */
-    private $addedAt;
+    private $createdAt;
 
-    public function __construct(Book $book, User $user, string $reason, \DateTime $addedAt)
+    public function __construct(Book $book, User $user, string $reason, \DateTime $createdAt)
     {
         $this->book = $book;
         $this->user = $user;
         $this->reason = $reason;
-        $this->addedAt = $addedAt;
+        $this->createdAt = $createdAt;
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -97,15 +97,26 @@ class Report
         return $this;
     }
 
-    public function getAddedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->addedAt;
+        return $this->createdAt;
     }
 
-    public function setAddedAt(\DateTimeInterface $addedAt): Report
+    public function setCreatedAt(\DateTimeInterface $createdAt): Report
     {
-        $this->addedAt = $addedAt;
+        $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'book' => $this->book,
+            'user' => $this->user,
+            'reason' => $this->reason,
+            'createdAt' => $this->createdAt,
+        ];
     }
 }

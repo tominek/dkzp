@@ -41,6 +41,12 @@ class ReportService
         );
     }
 
+    /**
+     * @param Request $request
+     * @param int $id
+     *
+     * @throws EntityNotFoundException
+     */
     public function updateFromRequest(Request $request, int $id): void
     {
         $report = $this->reportRepository->findIfExists($id);
@@ -49,7 +55,7 @@ class ReportService
             ->setUser($data['user'])
             ->setBook($data['book'])
             ->setReason($data['reason'])
-            ->setAddedAt(new \DateTime());
+            ->setCreatedAt(new \DateTime());
         $this->reportRepository->save($report);
     }
 

@@ -2,49 +2,33 @@
 
 namespace App\Service;
 
-use App\Entity\Book;
+use App\Entity\Author;
 use App\Repository\AuthorRepository;
-use App\Repository\BookRepository;
-use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validation;
 
-class BookCreatorService
+class AuthorCreatorService
 {
-    /**
-     * @var BookRepository
-     */
-    private $bookRepository;
-
     /**
      * @var AuthorRepository
      */
     private $authorRepository;
 
     /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
-
-    /**
-     * BookCreatorService constructor.
+     * AuthorCreatorService constructor.
      *
-     * @param BookRepository $bookRepository
      * @param AuthorRepository $authorRepository
-     * @param CategoryRepository $categoryRepository
      */
-    public function __construct(BookRepository $bookRepository, AuthorRepository $authorRepository, CategoryRepository $categoryRepository)
+    public function __construct(AuthorRepository $authorRepository)
     {
-        $this->bookRepository = $bookRepository;
         $this->authorRepository = $authorRepository;
-        $this->categoryRepository = $categoryRepository;
     }
 
     /**
      * @param Request $request
      *
-     * @return Book
+     * @return Author
      *
      * @throws \InvalidArgumentException
      */
@@ -53,49 +37,54 @@ class BookCreatorService
         try {
             $data = json_decode($request->getContent(), true);
             $this->validateCreateData($data);
-            $author = $this->authorRepository->findIfExists($data['author']);
 
-            $categories = [];
-            foreach ($data['categories'] as $categoryId) {
-                $categories[] = $this->categoryRepository->findIfExists($categoryId);
+            $author = $this->authorRepository->create(
+                $data['name'],
+                $data['description'],
+                date_create_from_format("d/m/Y", $data['born'])
+            );
+            if (array_key_exists('died', $data)) {
+                $author->setDied(date_create_from_format("d/m/Y", $data['died']));
             }
+            $this->authorRepository->save($author);
+
+            return $author;
         } catch (\Exception $e) {
             throw new \InvalidArgumentException('Invalid request body. ' . $e->getMessage());
         }
-
-        $book = $this->bookRepository->create(
-            $data['name'],
-            $author,
-            $categories
-        );
-        $this->bookRepository->save($book);
-
-        return $book;
     }
 
+    /**
+     * @param $data
+     *
+     * @throws \InvalidArgumentException
+     */
     private function validateCreateData($data)
     {
         $validator = Validation::createValidator();
 
-        $constraint = new Assert\Collection(array(
+        $constraint = new Assert\Collection([
             'name' => [
                 new Assert\Required(),
                 new Assert\NotBlank()
             ],
-            'author' => [
+            'description' => [
                 new Assert\Required(),
                 new Assert\NotBlank()
             ],
-            'categories' => [
+            'born' => [
                 new Assert\Required(),
                 new Assert\NotNull()
-            ]
-        ));
+            ],
+            'died' => new Assert\Optional([
+                new Assert\NotNull()
+            ]),
+        ]);
 
         $violations = $validator->validate($data, $constraint);
 
         if ($violations->count() > 0) {
-            throw new \InvalidArgumentException("Missing required parameters. Required: name, author");
+            throw new \InvalidArgumentException("Missing required parameters. Required: name, description, born. Optional: died.");
         }
     }
 }

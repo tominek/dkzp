@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Service\ReportService;
+use App\Service\ForumService;
 use Doctrine\ORM\EntityNotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,19 +11,21 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ReportController extends Controller
+class ForumController extends Controller
 {
-    /** @var ReportService */
-    private $reportService;
+    /**
+     * @var ForumService
+     */
+    private $forumService;
 
-    public function __construct(ReportService $reportService)
+    public function __construct(ForumService $forumService)
     {
-        $this->reportService = $reportService;
+        $this->forumService = $forumService;
     }
 
     /**
-     * @Route("/report", name="report_create", methods={"POST"})
-     * @IsGranted("ROLE_ADMIN")
+     * @Route("/forum", name="forum_create", methods={"POST"})
+     * @IsGranted("ROLE_USER")
      *
      * @param Request $request
      *
@@ -32,7 +34,7 @@ class ReportController extends Controller
     public function createAction(Request $request): JsonResponse
     {
         try {
-            $this->reportService->createFromRequest($request);
+            $this->forumService->createFromRequest($request);
         } catch (\InvalidArgumentException $e) {
             return $this->json([
                 "error" => "invalid_request",
@@ -44,8 +46,8 @@ class ReportController extends Controller
     }
 
     /**
-     * @Route("/report/{id}", name="report_update", methods={"PUT"})
-     * @IsGranted("ROLE_ADMIN")
+     * @Route("/forum/{id}", name="forum_update", methods={"PUT"})
+     * @IsGranted("ROLE_USER")
      *
      * @param Request $request
      * @param string $id
@@ -55,7 +57,7 @@ class ReportController extends Controller
     public function updateAction(Request $request, string $id): JsonResponse
     {
         try {
-            $this->reportService->updateFromRequest($request, $id);
+            $this->forumService->updateFromRequest($request, $id);
         } catch (EntityNotFoundException $e) {
             return $this->json([], Response::HTTP_NOT_FOUND);
         } catch (\InvalidArgumentException $e) {
@@ -69,8 +71,8 @@ class ReportController extends Controller
     }
 
     /**
-     * @Route("/report/{id}", name="report_delete", methods={"DELETE"})
-     * @IsGranted("ROLE_ADMIN")
+     * @Route("/forum/{id}", name="forum_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_MODERATOR")
      *
      * @param string $id
      *
@@ -79,7 +81,7 @@ class ReportController extends Controller
     public function deleteAction(string $id): JsonResponse
     {
         try {
-            $this->reportService->remove($id);
+            $this->forumService->remove($id);
         } catch (EntityNotFoundException $e) {
             return $this->json([], Response::HTTP_NOT_FOUND);
         }
@@ -88,16 +90,15 @@ class ReportController extends Controller
     }
 
     /**
-     * @Route("/report", name="report_list", methods={"GET"})
+     * @Route("/forum", name="forum_list", methods={"GET"})
+     * @IsGranted("ROLE_USER")
      *
      * @return JsonResponse
      */
     public function listAction(): JsonResponse
     {
-        $data = $this->reportService->getAll();
+        $data = $this->forumService->getAll();
 
-        return $this->json([
-            'data' => $data,
-        ], Response::HTTP_OK);
+        return $this->json($data, Response::HTTP_OK);
     }
 }
