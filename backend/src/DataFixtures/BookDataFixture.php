@@ -16,7 +16,7 @@ class BookDataFixture extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-        $entity1 = new Category("Kategorie1");
+        $entity1 = new Category("Kategorie1", "Popisek");
         $manager->persist($entity1);
 
         $entity = new Book("Kniha1", new \DateTime(), new \DateTime(), 1, 0, [

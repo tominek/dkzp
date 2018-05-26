@@ -29,7 +29,7 @@ class Category implements \JsonSerializable
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Book", inversedBy="groups")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Book", mappedBy="categories")
      *
      * @var Book[]
      */
@@ -81,11 +81,9 @@ class Category implements \JsonSerializable
     /**
      * @param Book[] $books
      */
-    public function setBooks(array $books): Category
+    public function setBooks(array $books)
     {
         $this->books = $books;
-
-        return $this;
     }
 
     function jsonSerialize()

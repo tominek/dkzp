@@ -3,9 +3,10 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\BookRepository")
  */
 class Book implements \JsonSerializable
 {
@@ -14,39 +15,40 @@ class Book implements \JsonSerializable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
      */
-    public $name;
+    private $name;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    public $state;
+    private $state;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    public $created;
+    private $created;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    public $updated;
+    private $updated;
 
     /**
      * @ORM\Column(type="integer")
      */
-    public $downloadCount;
+    private $downloadCount;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="books")
+     * @JoinTable(name="book_category")
      *
      * @var Category[]
      */
-    public $categories;
+    private $categories;
 
     /**
      * Book constructor.
@@ -103,7 +105,7 @@ class Book implements \JsonSerializable
     /**
      * @return Category[]
      */
-    public function getCategories(): array
+    public function getCategories()
     {
         return $this->categories;
     }
@@ -122,7 +124,7 @@ class Book implements \JsonSerializable
             'id' => $this->id,
             'name' => $this->name,
             'downloadCount' => $this->downloadCount,
-            'categories' => $this->categories,
+            'categories' => $this->categories->toArray(),
             'updated' => $this->updated,
             'created' => $this->created,
             'state' => $this->state
