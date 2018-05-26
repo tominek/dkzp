@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,13 +33,17 @@ class AuthenticationController extends Controller
      */
     public function loginAction(): JsonResponse
     {
+        /** @var User $user */
         $user = $this->getUser();
         if (empty($user)) {
             return $this->json([
                 "error" => "invalid_credentials"
             ], Response::HTTP_UNAUTHORIZED);
         }
-        return $this->json($user, Response::HTTP_OK);
+        $userData = $user->jsonSerialize();
+        $userData['apiKey'] = $user->getApiKey();
+        
+        return $this->json($userData, Response::HTTP_OK);
     }
 
     /**

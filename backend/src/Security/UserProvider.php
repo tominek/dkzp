@@ -86,6 +86,20 @@ class UserProvider implements UserProviderInterface
     /**
      * @inheritdoc
      */
+    public function loadUserByApiKey($apiKey): User
+    {
+        $user = $this->userRepository->findOneBy([
+            'apiKey' => $apiKey
+        ]);
+        if (empty($user)) {
+            throw new UsernameNotFoundException();
+        }
+        return $user;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function refreshUser(UserInterface $user): UserInterface
     {
         return $user;
