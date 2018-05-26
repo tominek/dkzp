@@ -7,7 +7,7 @@ class HelpPage extends React.Component {
     function Faq(props){
       return <div className="media">
         <div className="media-body">
-          <h4 className="media-heading">{props.question}</h4>
+          <h3 className="media-heading">{props.question}</h3>
           <p>{props.answer}</p>
         </div>
       </div>
@@ -16,7 +16,7 @@ class HelpPage extends React.Component {
       <div className="login-page">
         <Title title={'Nápověda | DKZP'} />
         
-        <h3>Potíže s přihlášením</h3>
+        <h1>Potíže s přihlášením</h1>
         <p>Zde jsme pro Vás připravili seznam obvyklých problémů s přihlášením do knihovny:</p>
         
         <Faq question="Problém: Nedaří se mi přeregistrace" answer="Řešení: Zadáváte-li správné údaje a systém informuje o neexistenci této kombinace, pak přeregistrace proběhla správně a pokoušíte se o další (přeregistraci lze provést jen jednou). V takovém případě se zkuste normálně přihlásit." />

@@ -23,7 +23,7 @@ class LoginPage extends React.Component {
             <Col sm={12} md={3}>
               <Sidebar />
             </Col>
-            <Col sm={12} md={9} className="text-left">
+            <Col sm={12} md={9} className="mainContent">
               <Switch>
                 {/* TODO regexp na routu  */}
                 <Route exact path='/prihlaseni' component={loginPages.SignInPage} />

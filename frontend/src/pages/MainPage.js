@@ -24,7 +24,7 @@ class MainPage extends React.Component {
             <Col sm={12} md={3}>
               <Header />
             </Col>
-            <Col sm={12} md={9} className="text-left">
+            <Col sm={12} md={9} className="mainContent">
               <Switch>
                 <Route exact path='/' component={pages.HomePage} />
                 <Route exact path='/autori' component={pages.AuthorsPage} />

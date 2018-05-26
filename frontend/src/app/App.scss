@@ -1,33 +1,48 @@
+
+@import './config.scss';
+
+html, body {
+  background: $color-secondary;
+  height: 100%;
+}
 .App {
-  text-align: center;
-  padding: 2rem;
-}
+  // text-align: center;
+  // padding: 2rem;
+  
+  color: $color-text;
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  a {
+    color: $color-text;
   }
-  to {
-    transform: rotate(360deg);
+
+  .mainContent {
+    h1 {
+      margin-top: 0;
+      font-weight: bold;
+      color: $color-primary;
+      font-size: 2em;
+    }
+    h2 {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+    h3 {
+      font-size: 1.3em;
+      font-weight: bold;
+    }
+    h4 {
+      font-size: 1.4em;
+    }
+    h5 {
+      font-size: 1.2em;
+    }
+    h6 {
+      font-size: 1.2em;
+    }
+  }
+
+  hr {
+    background-color: $color-primary;
+    border-color: $color-primary;
   }
 }

@@ -63,7 +63,7 @@ class Header extends React.Component {
 }
 
 const enhance = compose(
-  connect((state) => ({
+    connect((state) => ({
     openedMenu: state.App.toJS().openedMenu,
   }), { toggleMenu }),
 )

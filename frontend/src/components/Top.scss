@@ -1,0 +1,9 @@
+@import '../app/config.scss';
+
+.header{
+    height: 10em;
+    .title{
+        font-size: 2em;
+        color: $color-primary;
+    }
+}

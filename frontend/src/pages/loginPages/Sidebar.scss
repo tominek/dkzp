@@ -1,6 +1,6 @@
-@import '../app/config.scss';
+@import '../../app/config.scss';
 
-.main-page-header ul{
+.sidebar ul{
     background-color: darken($color-secondary, 4%);
     li > a:hover{
         background-color: darken($color-secondary, 10%);

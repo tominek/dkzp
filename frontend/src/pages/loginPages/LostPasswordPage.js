@@ -93,7 +93,7 @@ class LostPasswordPage extends React.Component {
       <div className="login-page">
         <Title title={'Zapomenuté heslo | DKZP'} />
 
-        <h2>Zapomenuté heslo</h2>
+        <h1>Zapomenuté heslo</h1>
         <p>Pokud jste zapomněli své heslo, máte možnost si nechat vygenerovat nové zadáním údajů v následujícím formuláři. Nové heslo Vám bude zasláno na mail, který jste uvedli při registraci. V naléhavých případech, kdy tento postup nebude fungovat, pište administrátorovi knihovny na adresu <a href="mailto:knihovna@mathilda.cz">knihovna@mathilda.cz</a>.</p>
         
         {this.state.alerts.map(alert => (

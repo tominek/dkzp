@@ -90,7 +90,7 @@ class LostPasswordPage extends React.Component {
       <div className="login-page">
         <Title title={'Přihlášení | DKZP'} />
 
-        <h2>Přihlášení do knihovny</h2>
+        <h1>Přihlášení do knihovny</h1>
         
         {this.state.alerts.map(alert => (
           <Alert bsStyle={alert.style}>

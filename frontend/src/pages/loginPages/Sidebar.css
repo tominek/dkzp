@@ -1,0 +1,4 @@
+.sidebar ul {
+  background-color: whitesmoke; }
+  .sidebar ul li > a:hover {
+    background-color: #e6e6e6; }

@@ -101,7 +101,7 @@ class RegistrationPage extends React.Component {
       <div className="login-page">
         <Title title={'Zapomenuté heslo | DKZP'} />
 
-        <h2>Registrace do knihovního systému</h2>
+        <h1>Registrace do knihovního systému</h1>
         <p>Pro úspěch registrace musíte zadat funkční e-mailovou adresu, na kterou Vám přijde ověřovací e-mail. Bez potrvrzení ověřovacího e-mailu nebude možné registraci dokončit.</p>
         
         {this.state.alerts.map(alert => (
