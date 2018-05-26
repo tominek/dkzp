@@ -47,6 +47,8 @@ class FavoriteController extends Controller
         $user = $this->getUser();
         $user->addFavoriteBook($book);
         $this->userRepository->save($user);
+
+        return $this->json([], Response::HTTP_OK);
     }
 
     /**
@@ -71,5 +73,7 @@ class FavoriteController extends Controller
         $user = $this->getUser();
         $user->removeFavoriteBook($book);
         $this->userRepository->save($user);
+
+        return $this->json([], Response::HTTP_OK);
     }
 }
