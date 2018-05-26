@@ -1,0 +1,13 @@
+.footer {
+  text-align: center;
+  padding: 2rem;
+  margin-top: 2rem;
+  background: steelblue;
+  color: white; }
+  .footer a {
+    color: white;
+    font-weight: 700;
+    text-decoration: underline;
+    transition: 0.2s; }
+    .footer a:hover {
+      color: darkgray; }

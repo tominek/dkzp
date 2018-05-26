@@ -5,11 +5,6 @@ import logo from './logo.svg'
 import { App } from './app'
 
 class DashApp extends React.Component {
-  componentDidCatch(error, info) {
-    console.log(info)
-    console.log(error)
-  }
-
   render() {
     return (
       <Provider store={store}>
