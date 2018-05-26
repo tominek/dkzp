@@ -41,6 +41,12 @@ class ReportService
         );
     }
 
+    /**
+     * @param Request $request
+     * @param int $id
+     *
+     * @throws EntityNotFoundException
+     */
     public function updateFromRequest(Request $request, int $id): void
     {
         $report = $this->reportRepository->findIfExists($id);

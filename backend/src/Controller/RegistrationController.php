@@ -32,7 +32,7 @@ class RegistrationController extends Controller
      *
      * @return Response
      */
-    public function register(Request $request): Response
+    public function registerAction(Request $request): Response
     {
         try {
             $this->userProvider->createFromRequest($request);

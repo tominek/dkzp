@@ -52,7 +52,7 @@ class ReportController extends Controller
      *
      * @return JsonResponse
      */
-    public function updateAction(Request $request, int $id)
+    public function updateAction(Request $request, string $id)
     {
         try {
             $this->reportService->updateFromRequest($request, $id);

@@ -29,7 +29,7 @@ class AuthenticationController extends Controller
      *
      * @return Response
      */
-    public function login()
+    public function loginAction()
     {
         $user = $this->getUser();
         if (empty($user)) {
@@ -45,7 +45,7 @@ class AuthenticationController extends Controller
      *
      * @return Response
      */
-    public function logout()
+    public function logoutAction()
     {
         return new Response();
     }

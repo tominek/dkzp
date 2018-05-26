@@ -136,6 +136,14 @@ class Author implements \JsonSerializable
         return $this->died;
     }
 
+    /**
+     * @param \DateTime $died
+     */
+    public function setDied(\DateTime $died): void
+    {
+        $this->died = $died;
+    }
+
     public function addBook(Book $book)
     {
         $this->books[] = $book;
@@ -152,8 +160,8 @@ class Author implements \JsonSerializable
             'key' => $this->key,
             'books' => $this->books,
             'description' => $this->description,
-            'born' => $this->born->format('dd/mm/YYYY'),
-            'died' => ($this->died) ? $this->died->format('dd/mm/YYYY') : '',
+            'born' => $this->born->format('d/m/Y'),
+            'died' => ($this->died) ? $this->died->format('d/m/Y') : '',
         ];
     }
 }
