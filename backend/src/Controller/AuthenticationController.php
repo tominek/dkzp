@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -27,9 +28,9 @@ class AuthenticationController extends Controller
     /**
      * @Route("/login", name="login", methods={"POST"})
      *
-     * @return Response
+     * @return JsonResponse
      */
-    public function loginAction()
+    public function loginAction(): JsonResponse
     {
         $user = $this->getUser();
         if (empty($user)) {
@@ -37,16 +38,16 @@ class AuthenticationController extends Controller
                 "error" => "invalid_credentials"
             ], Response::HTTP_UNAUTHORIZED);
         }
-        return $this->json($user);
+        return $this->json($user, Response::HTTP_OK);
     }
 
     /**
      * @Route("/logout", name="logout")
      *
-     * @return Response
+     * @return JsonResponse
      */
-    public function logoutAction()
+    public function logoutAction(): JsonResponse
     {
-        return new Response();
+        return $this->json([], Response::HTTP_OK);
     }
 }

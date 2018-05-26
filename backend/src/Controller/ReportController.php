@@ -29,7 +29,7 @@ class ReportController extends Controller
      *
      * @return JsonResponse
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): JsonResponse
     {
         try {
             $this->reportService->createFromRequest($request);
@@ -52,7 +52,7 @@ class ReportController extends Controller
      *
      * @return JsonResponse
      */
-    public function updateAction(Request $request, string $id)
+    public function updateAction(Request $request, string $id): JsonResponse
     {
         try {
             $this->reportService->updateFromRequest($request, $id);
@@ -76,7 +76,7 @@ class ReportController extends Controller
      *
      * @return JsonResponse
      */
-    public function deleteAction(string $id)
+    public function deleteAction(string $id): JsonResponse
     {
         try {
             $this->reportService->remove($id);
@@ -90,9 +90,9 @@ class ReportController extends Controller
     /**
      * @Route("/report", name="report_list", methods={"GET"})
      *
-     * @return Response
+     * @return JsonResponse
      */
-    public function listAction(): Response
+    public function listAction(): JsonResponse
     {
         $data = $this->reportService->getAll();
 

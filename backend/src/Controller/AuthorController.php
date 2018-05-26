@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\AuthorRepository;
 use App\Service\AuthorCreatorService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,22 +37,24 @@ class AuthorController extends Controller
 
     /**
      * @Route("/author", name="list_authors", methods={"GET"})
+     * @IsGranted("ROLE_USER")
      *
      * @return JsonResponse
      */
-    public function listAction()
+    public function listAction(): JsonResponse
     {
         return $this->json($this->authorRepository->findAll());
     }
 
     /**
      * @Route("/author", name="create_author", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
      *
      * @param Request $request
      *
      * @return JsonResponse
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): JsonResponse
     {
         try {
             $author = $this->authorCreatorService->createFromRequest($request);

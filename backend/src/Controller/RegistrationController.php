@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Security\UserProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,9 +31,9 @@ class RegistrationController extends Controller
      *
      * @param Request $request
      *
-     * @return Response
+     * @return JsonResponse
      */
-    public function registerAction(Request $request): Response
+    public function registerAction(Request $request): JsonResponse
     {
         try {
             $this->userProvider->createFromRequest($request);
@@ -43,6 +44,6 @@ class RegistrationController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        return new Response(null, Response::HTTP_CREATED);
+        return $this->json(null, Response::HTTP_CREATED);
     }
 }

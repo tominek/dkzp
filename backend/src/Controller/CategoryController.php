@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityNotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CategoryController extends Controller
 {
-    /** @var CategoryRepository */
+    /**
+     * @var CategoryRepository
+     */
     private $categoryRepository;
 
     public function __construct(CategoryRepository $categoryRepository)
@@ -30,7 +31,7 @@ class CategoryController extends Controller
      *
      * @return JsonResponse
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): JsonResponse
     {
         try {
             $this->categoryRepository->createFromRequest($request);
@@ -53,7 +54,7 @@ class CategoryController extends Controller
      *
      * @return JsonResponse
      */
-    public function updateAction(Request $request, string $id)
+    public function updateAction(Request $request, string $id): JsonResponse
     {
         try {
             $this->categoryRepository->updateFromRequest($request, $id);
@@ -77,7 +78,7 @@ class CategoryController extends Controller
      *
      * @return JsonResponse
      */
-    public function deleteAction(string $id)
+    public function deleteAction(string $id): JsonResponse
     {
         try {
             $this->categoryRepository->remove($id);
@@ -89,10 +90,12 @@ class CategoryController extends Controller
     }
 
     /**
-     * @Route("/category", name="category_list")
-     * @Method("GET")
+     * @Route("/category", name="category_list", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     *
+     * @return JsonResponse
      */
-    public function listAction()
+    public function listAction(): JsonResponse
     {
         $data = $this->categoryRepository->findAll();
 
