@@ -3,6 +3,9 @@ security:
     providers:
         user_provider:
             id: App\Security\UserProvider
+#        api_key_provider:
+#            id: App\Security\ApiKeyProvider
+#            property: apiKey
 
     encoders:
         App\Entity\User: bcrypt
@@ -17,8 +20,12 @@ security:
             security: false
         main:
             anonymous: ~
+            provider: user_provider
             json_login:
                 check_path: /login
             logout:
                 path: /logout
                 success_handler: App\Security\LogoutHandler
+            guard:
+                authenticators:
+                    - App\Security\TokenAuthenticator

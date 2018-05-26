@@ -85,6 +85,13 @@ class User implements AdvancedUserInterface, \JsonSerializable
     private $favoriteBooks;
 
     /**
+     * @ORM\Column(type="string", unique=true)
+     *
+     * @var string
+     */
+    private $apiKey;
+
+    /**
      * User constructor.
      *
      * @param string $username
@@ -167,6 +174,22 @@ class User implements AdvancedUserInterface, \JsonSerializable
     public function getSalt()
     {
         return null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiKey(): string
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * @param string $apiKey
+     */
+    public function setApiKey(string $apiKey): void
+    {
+        $this->apiKey = $apiKey;
     }
 
     /**
