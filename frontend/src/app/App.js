@@ -1,6 +1,6 @@
 import React from 'react'
 import {Switch, Route, BrowserRouter as Router} from 'react-router-dom'
-import { Header, Footer } from '../components'
+import { Top, Header, Footer } from '../components'
 import logo from '../logo.svg'
 import * as pages from '../pages'
 import './App.css'
@@ -9,6 +9,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+        <Top />
         <Router>
           <div className="app-container">
             <Switch>
