@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,13 +12,17 @@ class Category implements \JsonSerializable
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="string")
+     *
+     * @var string
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
+     *
+     * @var string
      */
     private $name;
 
@@ -39,35 +44,32 @@ class Category implements \JsonSerializable
     {
         $this->name = $name;
         $this->description = $description;
+        $this->books = new ArrayCollection();
     }
 
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(string $name): Category
+    public function setName(string $name)
     {
         $this->name = $name;
-
-        return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setDescription(?string $description): Category
+    public function setDescription(string $description)
     {
         $this->description = $description;
-
-        return $this;
     }
 
     /**
@@ -86,7 +88,12 @@ class Category implements \JsonSerializable
         $this->books = $books;
     }
 
-    function jsonSerialize()
+    public function addBook(Book $book)
+    {
+        $this->books[] = $book;
+    }
+
+    function jsonSerialize(): array
     {
         return [
             'id' => $this->id,

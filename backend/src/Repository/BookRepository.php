@@ -20,12 +20,33 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
-    public function findIfExists(int $id): Book
+    /**
+     * @param string $id
+     *
+     * @return Book
+     *
+     * @throws EntityNotFoundException
+     */
+    public function findIfExists(string $id): Book
     {
-        $entity = $this->find($id);
-        if (empty($entity)) {
-            throw new EntityNotFoundException();
+        $book = $this->find($id);
+        if (empty($book)) {
+            throw new EntityNotFoundException('Book not found.');
         }
-        return $entity;
+        return $book;
+    }
+
+    public function create($name, $author, $categories = [])
+    {
+        $book = new Book($name, $author, $categories, new \DateTime(), new \DateTime());
+        $this->save($book);
+
+        return $book;
+    }
+
+    public function save(Book $book)
+    {
+        $this->_em->persist($book);
+        $this->_em->flush();
     }
 }

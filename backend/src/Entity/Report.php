@@ -11,30 +11,40 @@ class Report
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="string")
+     *
+     * @var string
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Book", inversedBy="reports")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @var Book
      */
     private $book;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reports")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @var User
      */
     private $user;
 
     /**
      * @ORM\Column(type="string", length=64)
+     *
+     * @var string
      */
     private $reason;
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
      */
     private $addedAt;
 

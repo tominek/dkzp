@@ -88,9 +88,11 @@ class ReportController extends Controller
     }
 
     /**
-     * @Route("/report", name="report_list", methods={GET})
+     * @Route("/report", name="report_list", methods={"GET"})
+     *
+     * @return Response
      */
-    public function listAction()
+    public function listAction(): Response
     {
         $data = $this->reportService->getAll();
 

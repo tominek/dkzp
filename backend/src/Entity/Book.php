@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
 
@@ -13,34 +12,46 @@ use Doctrine\ORM\Mapping\JoinTable;
 class Book implements \JsonSerializable
 {
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="UUID")
+     *
+     * @var string
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
+     *
+     * @var string
      */
     private $name;
 
     /**
      * @ORM\Column(type="boolean")
+     *
+     * @var boolean
      */
-    private $state;
+    public $status;
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
      */
     private $created;
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
      */
     private $updated;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @var int
      */
     private $downloadCount;
 
@@ -54,58 +65,61 @@ class Book implements \JsonSerializable
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Report", mappedBy="book")
+     *
+     * @var Report[]
      */
     private $reports;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Author", inversedBy="books")
+     *
+     * @var Author
+     */
+    public $author;
 
     /**
      * Book constructor.
      *
      * @param string $name
+     * @param Author $author
+     * @param Category[] $categories
      * @param \DateTime $created
      * @param \DateTime $updated
-     * @param int $state
+     * @param int $status
      * @param int $downloadCount
-     * @param array $categories
      */
-    public function __construct(string $name, \DateTime $created, \DateTime $updated, int $state = 1, int $downloadCount = 0, array $categories = [])
+    public function __construct(string $name, Author $author, array $categories, \DateTime $created, \DateTime $updated, int $status = 1, int $downloadCount = 0)
     {
         $this->name = $name;
+        $this->author = $author;
+        $this->categories = new ArrayCollection($categories);
         $this->created = $created;
         $this->updated = $updated;
-        $this->state = $state;
+        $this->status = $status;
         $this->downloadCount = $downloadCount;
-        $this->categories = $categories;
         $this->reports = new ArrayCollection();
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @return string
      */
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
-    public function setName($name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -113,7 +127,7 @@ class Book implements \JsonSerializable
     /**
      * @return Category[]
      */
-    public function getCategories()
+    public function getCategories(): array
     {
         return $this->categories;
     }
@@ -126,16 +140,57 @@ class Book implements \JsonSerializable
         $this->categories = $categories;
     }
 
-    function jsonSerialize()
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreated(): \DateTime
+    {
+        return $this->created;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdated(): \DateTime
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDownloadCount(): int
+    {
+        return $this->downloadCount;
+    }
+
+    /**
+     * @return Author
+     */
+    public function getAuthor(): Author
+    {
+        return $this->author;
+    }
+
+    function jsonSerialize(): array
     {
         return [
             'id' => $this->id,
             'name' => $this->name,
             'downloadCount' => $this->downloadCount,
-            'categories' => $this->categories->toArray(),
+            'categories' => $this->categories,
+            'author' => $this->author,
             'updated' => $this->updated,
             'created' => $this->created,
-            'state' => $this->state
+            'status' => $this->status
         ];
     }
 }

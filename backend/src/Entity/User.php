@@ -16,6 +16,8 @@ class User implements AdvancedUserInterface, \JsonSerializable
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="UUID")
      * @ORM\Column(type="string")
+     *
+     * @var string
      */
     private $id;
 
