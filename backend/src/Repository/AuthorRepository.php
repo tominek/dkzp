@@ -36,10 +36,12 @@ class AuthorRepository extends ServiceEntityRepository
         return $author;
     }
 
-    public function save(Author $author)
+    public function save(Author $author, bool $flush = true)
     {
         $this->_em->persist($author);
-        $this->_em->flush();
+        if ($flush) {
+            $this->_em->flush();
+        }
     }
 
     /**

@@ -44,9 +44,11 @@ class BookRepository extends ServiceEntityRepository
         return $book;
     }
 
-    public function save(Book $book)
+    public function save(Book $book, bool $flush = true)
     {
         $this->_em->persist($book);
-        $this->_em->flush();
+        if ($flush) {
+            $this->_em->flush();
+        }
     }
 }

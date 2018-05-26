@@ -20,7 +20,7 @@ class Author implements \JsonSerializable
     private $id;
 
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string")
      *
      * @var string
      */
@@ -34,21 +34,21 @@ class Author implements \JsonSerializable
     private $key;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Book", mappedBy="author")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Book", mappedBy="authors", cascade={"persist"})
      *
      * @var Book[]
      */
     private $books;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      *
      * @var string
      */
     private $description;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime", nullable=true)
      *
      * @var \DateTime
      */
@@ -66,14 +66,14 @@ class Author implements \JsonSerializable
      *
      * @param string $name
      * @param string $description
+     * @param string $key
      * @param \DateTime $born
      * @param \DateTime $died
      */
-    public function __construct(string $name, string $description = null, \DateTime $born, \DateTime $died = null)
+    public function __construct(string $name, string $description = null, string $key, ?\DateTime $born = null, ?\DateTime $died = null)
     {
         $this->name = $name;
-        preg_match('/^(Ch|\w).*/', $name, $key);
-        $this->key = $key[1];
+        $this->key = $key;
         $this->books = new ArrayCollection();
         $this->description = $description;
         $this->born = $born;
@@ -83,7 +83,7 @@ class Author implements \JsonSerializable
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }

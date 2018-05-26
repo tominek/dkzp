@@ -82,7 +82,7 @@ class User implements AdvancedUserInterface, \JsonSerializable
      *
      * @var Book[]
      */
-    private $favoriteBooks;
+    private $favouriteBooks;
 
     /**
      * User constructor.
@@ -107,12 +107,12 @@ class User implements AdvancedUserInterface, \JsonSerializable
 
     public function addFavoriteBook(Book $book)
     {
-        $this->favoriteBooks[] = $book;
+        $this->favouriteBooks[] = $book;
     }
 
     public function removeFavoriteBook(Book $book)
     {
-        $this->favoriteBooks->removeElement($book);
+        $this->favouriteBooks->removeElement($book);
     }
 
     public function getId()
@@ -210,7 +210,7 @@ class User implements AdvancedUserInterface, \JsonSerializable
             'lastname' => $this->lastname,
             'username' => $this->username,
             'roles' => $this->roles,
-            'favoriteBooks' => $this->favoriteBooks->toArray()
+            'favouriteBooks' => $this->favouriteBooks->toArray()
         ];
     }
 

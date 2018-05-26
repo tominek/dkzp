@@ -71,27 +71,28 @@ class Book implements \JsonSerializable
     private $reports;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Author", inversedBy="books")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Author", inversedBy="books")
+     * @JoinTable(name="book_author")
      *
-     * @var Author
+     * @var Author[]
      */
-    public $author;
+    public $authors;
 
     /**
      * Book constructor.
      *
      * @param string $name
-     * @param Author $author
+     * @param Author[] $authors
      * @param Category[] $categories
      * @param \DateTime $created
      * @param \DateTime $updated
      * @param int $status
      * @param int $downloadCount
      */
-    public function __construct(string $name, Author $author, array $categories, \DateTime $created, \DateTime $updated, int $status = 1, int $downloadCount = 0)
+    public function __construct(string $name, array $authors, array $categories, \DateTime $created, \DateTime $updated, int $status = 1, int $downloadCount = 0)
     {
         $this->name = $name;
-        $this->author = $author;
+        $this->authors = new ArrayCollection($authors);
         $this->categories = new ArrayCollection($categories);
         $this->created = $created;
         $this->updated = $updated;
@@ -140,6 +141,11 @@ class Book implements \JsonSerializable
         $this->categories = $categories;
     }
 
+    public function addCategory(Category $category)
+    {
+        $this->categories[$category->getId()] = $category;
+    }
+
     /**
      * @return mixed
      */
@@ -173,11 +179,16 @@ class Book implements \JsonSerializable
     }
 
     /**
-     * @return Author
+     * @return Author[]
      */
-    public function getAuthor(): Author
+    public function getAuthors(): array
     {
-        return $this->author;
+        return $this->authors;
+    }
+
+    public function addAuthor(Author $author)
+    {
+        $this->authors[$author->getId()] = $author;
     }
 
     function jsonSerialize(): array
@@ -187,7 +198,7 @@ class Book implements \JsonSerializable
             'name' => $this->name,
             'downloadCount' => $this->downloadCount,
             'categories' => $this->categories,
-            'author' => $this->author,
+            'author' => $this->authors,
             'updated' => $this->updated,
             'created' => $this->created,
             'status' => $this->status

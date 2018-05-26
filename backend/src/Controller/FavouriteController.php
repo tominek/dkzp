@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FavoriteController extends Controller
+class FavouriteController extends Controller
 {
     /** @var UserRepository */
     private $userRepository;
@@ -26,7 +26,7 @@ class FavoriteController extends Controller
     }
 
     /**
-     * @Route("/favorite/{id}", name="favorite_add", methods={"POST"})
+     * @Route("/favourite/{id}", name="favorite_add", methods={"GET"})
      * @IsGranted("ROLE_USER")
      *
      * @param string $id
@@ -50,7 +50,7 @@ class FavoriteController extends Controller
     }
 
     /**
-     * @Route("/favorite/{id}", name="favorite_remove", methods={"DELETE"})
+     * @Route("/favourite/{id}", name="favorite_remove", methods={"DELETE"})
      * @IsGranted("ROLE_USER")
      *
      * @param string $id
