@@ -103,6 +103,7 @@ class User implements AdvancedUserInterface, \JsonSerializable
         $this->registrationDate = new \DateTime();
         $this->enabled = false;
         $this->reports = new ArrayCollection();
+        $this->favoriteBooks = new ArrayCollection();
     }
 
     public function addFavoriteBook(Book $book)

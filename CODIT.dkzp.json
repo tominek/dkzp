@@ -1,0 +1,640 @@
+{
+	"info": {
+		"_postman_id": "e73eeebf-abcf-4f41-9df8-a24d1e5748a6",
+		"name": "CODIT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create book",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Alice In Wonderland\",\n\t\"author\":\"2c6de632-6081-11e8-81fd-0242ac120003\",\n\t\"categories\":[\n\t\t\"2c6dee00-6081-11e8-81fd-0242ac120003\",\n\t\t\"2c6df26e-6081-11e8-81fd-0242ac120003\"\n\t]\n}"
+				},
+				"url": {
+					"raw": "{{BACKEND}}/book",
+					"host": [
+						"{{BACKEND}}"
+					],
+					"path": [
+						"book"
+					]
+				}
+			},
+			"response": [
+				{
+					"id": "4b5f650e-09c2-43ed-b119-d0ecf425dff8",
+					"name": "Create book",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Alice In Wonderland\",\n\t\"author\":\"2c6de632-6081-11e8-81fd-0242ac120003\",\n\t\"categories\":[\n\t\t\"2c6dee00-6081-11e8-81fd-0242ac120003\",\n\t\t\"2c6df26e-6081-11e8-81fd-0242ac120003\"\n\t]\n}"
+						},
+						"url": {
+							"raw": "{{BACKEND}}/book",
+							"host": [
+								"{{BACKEND}}"
+							],
+							"path": [
+								"book"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "Cache-Control",
+							"value": "max-age=0, must-revalidate, private",
+							"name": "Cache-Control",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"key": "Content-Length",
+							"value": "502",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 26 May 2018 01:22:23 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.25 (Debian)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/7.2.5",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Tue Jan 19 2038 04:14:07 GMT+0100 (Central Europe Standard Time)",
+							"httpOnly": true,
+							"domain": "dkzp-backend.local",
+							"path": "/",
+							"secure": false,
+							"value": "446aebb4cb6a332126aa406024eba20e",
+							"key": "PHPSESSID"
+						}
+					],
+					"body": "{\"id\":\"3edc2b9e-6083-11e8-81fd-0242ac120003\",\"name\":\"Alice In Wonderland\",\"downloadCount\":0,\"categories\":{},\"author\":{\"id\":\"2c6de632-6081-11e8-81fd-0242ac120003\",\"name\":\"Professor Farnsworth\",\"key\":\"P\",\"books\":{},\"description\":\"Author description\",\"born\":\"2626\\/0505\\/2018201820182018\",\"died\":\"2626\\/0505\\/2018201820182018\"},\"updated\":{\"date\":\"2018-05-26 01:22:24.639718\",\"timezone_type\":3,\"timezone\":\"UTC\"},\"created\":{\"date\":\"2018-05-26 01:22:24.639715\",\"timezone_type\":3,\"timezone\":\"UTC\"},\"status\":1}"
+				}
+			]
+		},
+		{
+			"name": "Authenticate user",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"admin@dkzp.local\",\n\t\"password\": \"admin\"\n}"
+				},
+				"url": {
+					"raw": "{{BACKEND}}/login",
+					"host": [
+						"{{BACKEND}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"id": "1e3683d0-1e5f-4fe1-802c-75b01a08df89",
+					"name": "Authenticate user",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"philip@dkzp.local\",\n\t\"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{BACKEND}}/login",
+							"host": [
+								"{{BACKEND}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "max-age=0, must-revalidate, private",
+							"name": "Cache-Control",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"key": "Content-Length",
+							"value": "99",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 25 May 2018 16:37:43 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.25 (Debian)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/7.2.5",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Tue Jan 19 2038 04:14:07 GMT+0100 (Central Europe Standard Time)",
+							"httpOnly": true,
+							"domain": "dkzp-backend.local",
+							"path": "/",
+							"secure": false,
+							"value": "3396d64bd194ceb8ffe16646b530d4a4",
+							"key": "PHPSESSID"
+						}
+					],
+					"body": "{\"id\":7,\"firstname\":\"philip\",\"lastname\":\"fry\",\"username\":\"philip@dkzp.local\",\"roles\":[\"ROLE_USER\"]}"
+				},
+				{
+					"id": "e3771287-1ed7-411b-a1cc-df09173c0165",
+					"name": "Authenticate admin",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"admin@dkzp.local\",\n\t\"password\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "{{BACKEND}}/login",
+							"host": [
+								"{{BACKEND}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "max-age=0, must-revalidate, private",
+							"name": "Cache-Control",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"key": "Content-Length",
+							"value": "112",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 25 May 2018 16:51:25 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.25 (Debian)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/7.2.5",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Tue Jan 19 2038 04:14:07 GMT+0100 (Central Europe Standard Time)",
+							"httpOnly": true,
+							"domain": "dkzp-backend.local",
+							"path": "/",
+							"secure": false,
+							"value": "3396d64bd194ceb8ffe16646b530d4a4",
+							"key": "PHPSESSID"
+						}
+					],
+					"body": "{\"id\":6,\"firstname\":\"admin\",\"lastname\":\"administratorovic\",\"username\":\"admin@dkzp.local\",\"roles\":[\"ROLE_ADMIN\"]}"
+				}
+			]
+		},
+		{
+			"name": "User logout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{BACKEND}}/logout",
+					"host": [
+						"{{BACKEND}}"
+					],
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User registration",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstname\": \"john\",\n\t\"lastname\": \"zoidberg\",\n\t\"username\": \"john\",\n\t\"passwor\": \"password\"\n}"
+				},
+				"url": {
+					"raw": "{{BACKEND}}/register",
+					"host": [
+						"{{BACKEND}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Enable user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{BACKEND}}/user/c5546cea-604f-11e8-a89e-0242ac120004/enable",
+					"host": [
+						"{{BACKEND}}"
+					],
+					"path": [
+						"user",
+						"c5546cea-604f-11e8-a89e-0242ac120004",
+						"enable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Disable user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{BACKEND}}/user/c5546cea-604f-11e8-a89e-0242ac120004/disable",
+					"host": [
+						"{{BACKEND}}"
+					],
+					"path": [
+						"user",
+						"c5546cea-604f-11e8-a89e-0242ac120004",
+						"disable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Homepage",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{BACKEND}}",
+					"host": [
+						"{{BACKEND}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get books",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{BACKEND}}/book",
+					"host": [
+						"{{BACKEND}}"
+					],
+					"path": [
+						"book"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create author",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Han Solo\",\n\t\"description\": \"Author description\",\n\t\"born\": \"20/04/1846\",\n\t\"died\": \"13/07/1906\"\n}"
+				},
+				"url": {
+					"raw": "{{BACKEND}}/author",
+					"host": [
+						"{{BACKEND}}"
+					],
+					"path": [
+						"author"
+					]
+				}
+			},
+			"response": [
+				{
+					"id": "04263d56-c1bb-4f5e-be7e-9f31ac6c4e56",
+					"name": "Create author",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Han Solo\",\n\t\"description\": \"Author description\",\n\t\"born\": \"20/04/1846\",\n\t\"died\": \"13/07/1906\"\n}"
+						},
+						"url": {
+							"raw": "{{BACKEND}}/author",
+							"host": [
+								"{{BACKEND}}"
+							],
+							"path": [
+								"author"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "Cache-Control",
+							"value": "max-age=0, must-revalidate, private",
+							"name": "Cache-Control",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"key": "Content-Length",
+							"value": "163",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 26 May 2018 02:25:10 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.25 (Debian)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/7.2.5",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Tue Jan 19 2038 04:14:07 GMT+0100 (Central Europe Standard Time)",
+							"httpOnly": true,
+							"domain": "dkzp-backend.local",
+							"path": "/",
+							"secure": false,
+							"value": "446aebb4cb6a332126aa406024eba20e",
+							"key": "PHPSESSID"
+						}
+					],
+					"body": "{\"id\":\"041f51b4-608c-11e8-81fd-0242ac120003\",\"name\":\"Han Solo\",\"key\":\"H\",\"books\":{},\"description\":\"Author description\",\"born\":\"20\\/04\\/1846\",\"died\":\"13\\/07\\/1906\"}"
+				}
+			]
+		},
+		{
+			"name": "Get authors",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{BACKEND}}/author",
+					"host": [
+						"{{BACKEND}}"
+					],
+					"path": [
+						"author"
+					]
+				}
+			},
+			"response": [
+				{
+					"id": "f053ad6c-d3e1-4cf6-a542-970b6caf5383",
+					"name": "Get authors",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{BACKEND}}/author",
+							"host": [
+								"{{BACKEND}}"
+							],
+							"path": [
+								"author"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "Cache-Control",
+							"value": "max-age=0, must-revalidate, private",
+							"name": "Cache-Control",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"key": "Content-Length",
+							"value": "500",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 26 May 2018 02:25:52 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.25 (Debian)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/7.2.5",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Tue Jan 19 2038 04:14:07 GMT+0100 (Central Europe Standard Time)",
+							"httpOnly": true,
+							"domain": "dkzp-backend.local",
+							"path": "/",
+							"secure": false,
+							"value": "446aebb4cb6a332126aa406024eba20e",
+							"key": "PHPSESSID"
+						}
+					],
+					"body": "[{\"id\":\"041f51b4-608c-11e8-81fd-0242ac120003\",\"name\":\"Han Solo\",\"key\":\"H\",\"books\":{},\"description\":\"Author description\",\"born\":\"20\\/04\\/1846\",\"died\":\"13\\/07\\/1906\"},{\"id\":\"2c6de632-6081-11e8-81fd-0242ac120003\",\"name\":\"Professor Farnsworth\",\"key\":\"P\",\"books\":{},\"description\":\"Author description\",\"born\":\"26\\/05\\/2018\",\"died\":\"26\\/05\\/2018\"},{\"id\":\"a007b754-608b-11e8-81fd-0242ac120003\",\"name\":\"Franz Ferdinand\",\"key\":\"F\",\"books\":{},\"description\":\"Author description\",\"born\":\"20\\/04\\/1846\",\"died\":\"\"}]"
+				}
+			]
+		}
+	]
+}
