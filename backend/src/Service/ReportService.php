@@ -49,7 +49,7 @@ class ReportService
             ->setUser($data['user'])
             ->setBook($data['book'])
             ->setReason($data['reason'])
-            ->setAddedAt(new \DateTime());
+            ->setCreatedAt(new \DateTime());
         $this->reportRepository->save($report);
     }
 
