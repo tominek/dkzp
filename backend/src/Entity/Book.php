@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
 
@@ -51,6 +53,11 @@ class Book implements \JsonSerializable
     private $categories;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Report", mappedBy="book")
+     */
+    private $reports;
+
+    /**
      * Book constructor.
      *
      * @param string $name
@@ -68,6 +75,7 @@ class Book implements \JsonSerializable
         $this->state = $state;
         $this->downloadCount = $downloadCount;
         $this->categories = $categories;
+        $this->reports = new ArrayCollection();
     }
 
     /**

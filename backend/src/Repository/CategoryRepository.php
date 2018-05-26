@@ -34,16 +34,11 @@ class CategoryRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $id
-     *
      * @throws EntityNotFoundException
      */
-    public function remove(string $id): void
+    public function remove(int $id): void
     {
-        $category = $this->find($id);
-        if (empty($category)) {
-            throw new EntityNotFoundException();
-        }
+        $category = $this->findIfExists($id);
         $this->_em->remove($category);
         $this->_em->flush();
     }
@@ -81,11 +76,7 @@ class CategoryRepository extends ServiceEntityRepository
      */
     public function updateFromRequest(Request $request, string $id)
     {
-        $category = $this->find($id);
-        if (empty($category)) {
-            throw new EntityNotFoundException();
-        }
-
+        $category = $this->findIfExists($id);
         $data = $this->getValidatedData($request);
         $category->setName($data['name'])->setDescription($data['description']);
         $this->save($category);
@@ -107,5 +98,14 @@ class CategoryRepository extends ServiceEntityRepository
             throw new \InvalidArgumentException("Missing required parameters. Required: description");
         }
         return $data;
+    }
+
+    public function findIfExists(int $id): Category
+    {
+        $entity = $this->find($id);
+        if (empty($entity)) {
+            throw new EntityNotFoundException();
+        }
+        return $entity;
     }
 }
