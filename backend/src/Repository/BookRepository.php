@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,32 +20,33 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
-//    /**
-//     * @return Book[] Returns an array of Book objects
-//     */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param string $id
+     *
+     * @return Book
+     *
+     * @throws EntityNotFoundException
+     */
+    public function findIfExists(string $id): Book
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $book = $this->find($id);
+        if (empty($book)) {
+            throw new EntityNotFoundException('Book not found.');
+        }
+        return $book;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Book
+    public function create($name, $author, $categories = [])
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $book = new Book($name, $author, $categories, new \DateTime(), new \DateTime());
+        $this->save($book);
+
+        return $book;
     }
-    */
+
+    public function save(Book $book)
+    {
+        $this->_em->persist($book);
+        $this->_em->flush();
+    }
 }

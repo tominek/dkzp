@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Author;
 use App\Entity\Book;
 use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -16,13 +17,17 @@ class BookDataFixture extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-        $entity1 = new Category("Kategorie1");
-        $manager->persist($entity1);
+        $author = new Author("Professor Farnsworth", "Author description", new \DateTime(), new \DateTime());
+        $manager->persist($author);
 
-        $entity = new Book("Kniha1", new \DateTime(), new \DateTime(), 1, 0, [
-            $entity1
-        ]);
-        $manager->persist($entity);
+        $category = new Category("Kategorie1", "Description");
+        $manager->persist($category);
+        $category2 = new Category("Kategorie2", "Description");
+        $manager->persist($category2);
+
+        $book = new Book("Kniha1", $author, [$category, $category2], new \DateTime(), new \DateTime());
+        $manager->persist($book);
+
         $manager->flush();
     }
 }

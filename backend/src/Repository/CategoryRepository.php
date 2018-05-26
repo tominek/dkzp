@@ -22,6 +22,22 @@ class CategoryRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param string $id
+     *
+     * @return Category
+     *
+     * @throws EntityNotFoundException
+     */
+    public function findIfExists(string $id): Category
+    {
+        $cate = $this->find($id);
+        if (empty($cate)) {
+            throw new EntityNotFoundException('Category not found.');
+        }
+        return $cate;
+    }
+
+    /**
      * @param Category $category
      * @param bool $flush
      */
@@ -34,16 +50,11 @@ class CategoryRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $id
-     *
      * @throws EntityNotFoundException
      */
-    public function remove(string $id): void
+    public function remove(int $id): void
     {
-        $category = $this->find($id);
-        if (empty($category)) {
-            throw new EntityNotFoundException();
-        }
+        $category = $this->findIfExists($id);
         $this->_em->remove($category);
         $this->_em->flush();
     }
@@ -81,13 +92,10 @@ class CategoryRepository extends ServiceEntityRepository
      */
     public function updateFromRequest(Request $request, string $id)
     {
-        $category = $this->find($id);
-        if (empty($category)) {
-            throw new EntityNotFoundException();
-        }
-
+        $category = $this->findIfExists($id);
         $data = $this->getValidatedData($request);
-        $category->setName($data['name'])->setDescription($data['description']);
+        $category->setName($data['name']);
+        $category->setDescription($data['description']);
         $this->save($category);
 
         return $category;

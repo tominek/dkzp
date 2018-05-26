@@ -35,10 +35,7 @@ class UserRepository extends ServiceEntityRepository
      */
     public function enableUser(string $id)
     {
-        $user = $this->find($id);
-        if (empty($user)) {
-            throw new EntityNotFoundException();
-        }
+        $user = $this->findIfExists($id);
         $user->enable();
         $this->save($user);
     }
@@ -50,11 +47,17 @@ class UserRepository extends ServiceEntityRepository
      */
     public function disableUser(string $id)
     {
-        $user = $this->find($id);
-        if (empty($user)) {
-            throw new EntityNotFoundException();
-        }
+        $user = $this->findIfExists($id);
         $user->disable();
         $this->save($user);
+    }
+
+    public function findIfExists(int $id): User
+    {
+        $entity = $this->find($id);
+        if (empty($entity)) {
+            throw new EntityNotFoundException();
+        }
+        return $entity;
     }
 }

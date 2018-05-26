@@ -7,13 +7,11 @@ use App\Entity\User;
 use App\Repository\CategoryRepository;
 use App\Security\UserProvider;
 use App\Service\MigrationService;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class AppMigrateDataCommand extends Command
 {
@@ -43,8 +41,7 @@ class AppMigrateDataCommand extends Command
     {
         $this
             ->setDescription('Migrate old database data and fill ')
-            ->addOption('truncate-tables', 'tt', InputOption::VALUE_NONE, 'Truncate all actual database tables')
-        ;
+            ->addOption('truncate-tables', 'tt', InputOption::VALUE_NONE, 'Truncate all actual database tables');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): void

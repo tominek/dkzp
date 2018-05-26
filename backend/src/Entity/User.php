@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
@@ -14,6 +16,8 @@ class User implements AdvancedUserInterface, \JsonSerializable
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="UUID")
      * @ORM\Column(type="string")
+     *
+     * @var string
      */
     private $id;
 
@@ -69,6 +73,11 @@ class User implements AdvancedUserInterface, \JsonSerializable
     private $enabled;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Report", mappedBy="user")
+     */
+    private $reports;
+
+    /**
      * User constructor.
      *
      * @param string $username
@@ -86,6 +95,7 @@ class User implements AdvancedUserInterface, \JsonSerializable
         $this->roles = $roles;
         $this->registrationDate = new \DateTime();
         $this->enabled = false;
+        $this->reports = new ArrayCollection();
     }
 
     public function getId()
@@ -226,5 +236,36 @@ class User implements AdvancedUserInterface, \JsonSerializable
     public function disable()
     {
         $this->enabled = false;
+    }
+
+    /**
+     * @return Collection|Report[]
+     */
+    public function getReports(): Collection
+    {
+        return $this->reports;
+    }
+
+    public function addReport(Report $report): self
+    {
+        if (!$this->reports->contains($report)) {
+            $this->reports[] = $report;
+            $report->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReport(Report $report): self
+    {
+        if ($this->reports->contains($report)) {
+            $this->reports->removeElement($report);
+            // set the owning side to null (unless already changed)
+            if ($report->getUser() === $this) {
+                $report->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
