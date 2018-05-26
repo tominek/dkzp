@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Service\ReportService;
 use Doctrine\ORM\EntityNotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +22,7 @@ class ReportController extends Controller
     }
 
     /**
-     * @Route("/category", name="category_create", methods={"POST"})
+     * @Route("/report", name="report_create", methods={"POST"})
      * @IsGranted("ROLE_ADMIN")
      *
      * @param Request $request
@@ -45,7 +44,7 @@ class ReportController extends Controller
     }
 
     /**
-     * @Route("/category/{id}", name="category_update", methods={"PUT"})
+     * @Route("/report/{id}", name="report_update", methods={"PUT"})
      * @IsGranted("ROLE_ADMIN")
      *
      * @param Request $request
@@ -70,7 +69,7 @@ class ReportController extends Controller
     }
 
     /**
-     * @Route("/category/{id}", name="category_delete", methods={"DELETE"})
+     * @Route("/report/{id}", name="report_delete", methods={"DELETE"})
      * @IsGranted("ROLE_ADMIN")
      *
      * @param string $id
@@ -89,8 +88,7 @@ class ReportController extends Controller
     }
 
     /**
-     * @Route("/category", name="category_list")
-     * @Method("GET")
+     * @Route("/report", name="report_list", methods={GET})
      */
     public function listAction()
     {

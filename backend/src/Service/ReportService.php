@@ -81,6 +81,6 @@ class ReportService
 
     public function getAll()
     {
-        $this->reportRepository->findAll();
+        return $this->reportRepository->findAll();
     }
 }
