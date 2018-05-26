@@ -10,6 +10,7 @@ import { Route, Redirect } from 'react-router'
 const msgs = {
   'wrongEmail': 'Uživatelský účet s tímto přihlašovacím e-mailem v knihovně nemáme. Zkontrolujte prosím správnost zadané e-mailové adresy.',
   'wrongPassword': 'Vámi zadané heslo není správné.',
+  'generalError': 'Přihlášení se nepodařilo dokončit',
 }
 
 class LostPasswordPage extends React.Component {
@@ -52,27 +53,38 @@ class LostPasswordPage extends React.Component {
           password: this.state.password.trim()
         })
       })
-      .then(
-        (response) => {
-          if (response.ok) {
-            history.push('/')
-          }
-
-          throw new Error(response.json().error)
-        },
-        (error) => {
-          throw new Error()
+      .then( response => {
+        if (!response.ok) { 
+            throw response 
         }
-      )
-      .catch(error => {
+        return response.json()  //we only get here if there is no error
+      })
+      .then( json => {
+        // TODO if remember me, use localstorage
+        sessionStorage.setItem('user_id', json.id)
+        sessionStorage.setItem('user_name', json.firstname + json.lastname)
+        sessionStorage.setItem('user_roles', json.roles.join(','))
+        history.push('/')
+      })
+      .catch( error => {
+
+        let errorMessage = ''
+        if ( error.status == 401 ) {
+          errorMessage = msgs.wrongEmail
+        } else {
+          errorMessage = msgs.generalError
+        }
+
+        console.log(errorMessage)
+        
+
           this.setState({
             alerts: [...this.state.alerts, {
               style: 'danger',
-              message: msgs.wrongEmail
+              message: errorMessage
             }]
           })
-        }
-      )
+        })
   }
   render() {
     return (
