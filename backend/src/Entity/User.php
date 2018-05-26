@@ -78,6 +78,13 @@ class User implements AdvancedUserInterface, \JsonSerializable
     private $reports;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Book", cascade={"persist", "remove"})
+     *
+     * @var Book[]
+     */
+    private $favoriteBooks;
+
+    /**
      * User constructor.
      *
      * @param string $username
@@ -96,6 +103,16 @@ class User implements AdvancedUserInterface, \JsonSerializable
         $this->registrationDate = new \DateTime();
         $this->enabled = false;
         $this->reports = new ArrayCollection();
+    }
+
+    public function addFavoriteBook(Book $book)
+    {
+        $this->favoriteBooks[] = $book;
+    }
+
+    public function removeFavoriteBook(Book $book)
+    {
+        $this->favoriteBooks->removeElement($book);
     }
 
     public function getId()
@@ -193,6 +210,7 @@ class User implements AdvancedUserInterface, \JsonSerializable
             'lastname' => $this->lastname,
             'username' => $this->username,
             'roles' => $this->roles,
+            'favoriteBooks' => $this->favoriteBooks->toArray()
         ];
     }
 
