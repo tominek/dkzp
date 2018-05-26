@@ -28,6 +28,12 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
+    public function saveWithLastId(User $user, bool $flush = true): User
+    {
+        $this->save($user, $flush);
+        return $user;
+    }
+
     /**
      * @param string $id
      *

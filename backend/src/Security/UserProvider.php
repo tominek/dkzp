@@ -37,10 +37,10 @@ class UserProvider implements UserProviderInterface
         $this->encoder = $encoder;
     }
 
-    public function createWithoutFlush(User $user, bool $flush): void
+    public function createWithoutFlush(User $user, bool $flush): User
     {
         $user->setPassword($this->encoder->encodePassword($user, $user->getPassword()));
-        $this->userRepository->save($user, $flush);
+        return $this->userRepository->saveWithLastId($user, $flush);
     }
 
     /**

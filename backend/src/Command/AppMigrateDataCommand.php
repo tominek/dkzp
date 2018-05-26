@@ -3,8 +3,10 @@
 namespace App\Command;
 
 use App\Entity\Category;
+use App\Entity\Forum;
 use App\Entity\User;
 use App\Repository\CategoryRepository;
+use App\Repository\ForumRepository;
 use App\Security\UserProvider;
 use App\Service\MigrationService;
 use Symfony\Component\Console\Command\Command;
@@ -24,17 +26,22 @@ class AppMigrateDataCommand extends Command
     /** @var CategoryRepository */
     private $categoryRepository;
 
+    /** @var ForumRepository */
+    private $forumRepository;
+
     protected static $defaultName = 'app:migrate-data';
 
     public function __construct(
         MigrationService $migrationService,
         UserProvider $userProvider,
-        CategoryRepository $categoryRepository
+        CategoryRepository $categoryRepository,
+        ForumRepository $forumRepository
     ) {
         parent::__construct();
         $this->migrationService = $migrationService;
         $this->userProvider = $userProvider;
         $this->categoryRepository = $categoryRepository;
+        $this->forumRepository = $forumRepository;
     }
 
     protected function configure()
@@ -57,11 +64,12 @@ class AppMigrateDataCommand extends Command
 
         // Users (kh_users)
         $oldUsers = $this->migrationService->getOldDataFromTable('kh_users');
-        $i = 1;
+        $iUser = 1;
         foreach ($oldUsers as $user) {
             if ($user['role'] === 'guest') {
                 continue;
             }
+            $oldUserId = $user['id'];
             $newUser = new User(
                 $user['email'],
                 $user['jmeno'],
@@ -69,9 +77,66 @@ class AppMigrateDataCommand extends Command
                 $user['psw'],
                 [$this->getNewUserRole($user['role'])]
             );
-            $this->userProvider->createWithoutFlush($newUser, $i === count($oldUsers));
-            $io->writeln(sprintf('Importing user #%d...', $i));
-            $i++;
+            $newUser = $this->userProvider->createWithoutFlush($newUser, true);
+            $io->writeln('User gets new ID: ' . $newUser->getId());
+
+            // Forum (kh_forum)
+            $oldForum = $this->migrationService->getOldDataFromTableBy('kh_forum', 'user', $oldUserId);
+            $i = 1;
+            foreach ($oldForum as $item) {
+                $dateTime = new \DateTime();
+                $dateTime->setTimestamp($item['time']);
+                $newForum = new Forum(
+                    $item['subject'],
+                    $item['text'],
+                    $newUser,
+                    $dateTime,
+                    'SCAN'
+                );
+                $this->forumRepository->save($newForum, $i === count($oldForum));
+                $io->writeln(sprintf('Importing scan forum #%d...', $i));
+                $i++;
+            }
+
+            // Forum (kh_diskuze)
+            $oldForum = $this->migrationService->getOldDataFromTableBy('kh_diskuze', 'user', $oldUserId);
+            $i = 1;
+            foreach ($oldForum as $item) {
+                $dateTime = new \DateTime();
+                $dateTime->setTimestamp($item['time']);
+                $newForum = new Forum(
+                    $item['subject'],
+                    $item['text'],
+                    $newUser,
+                    $dateTime,
+                    'FORUM'
+                );
+                $this->forumRepository->save($newForum, $i === count($oldForum));
+                $io->writeln(sprintf('Importing forum #%d...', $i));
+                $i++;
+            }
+
+            // Reports (kh_hlaseni)
+//            $oldReports = $this->migrationService->getOldDataFromTableBy('kh_hlaseni', 'uzivatel', $oldUserId);
+//            $iUser = 1;
+//            foreach ($oldReports as $report) {
+//                if ($user['role'] === 'guest') {
+//                    continue;
+//                }
+//                $newUser = new User(
+//                    $user['email'],
+//                    $user['jmeno'],
+//                    $user['prijimeni'],
+//                    $user['psw'],
+//                    [$this->getNewUserRole($user['role'])]
+//                );
+//                $this->userProvider->createWithoutFlush($newUser, $iUser === count($oldUsers));
+//                $io->writeln(sprintf('Importing user #%d...', $iUser));
+//                $iUser++;
+//            }
+
+            $io->writeln(sprintf('Importing user #%d...', $iUser));
+            $iUser++;
         }
 
         // Category (kh_kategorie)

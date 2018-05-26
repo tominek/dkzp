@@ -23,6 +23,13 @@ class MigrationService
         return $this->oldConnection->query(sprintf('SELECT * FROM %s', $table))->fetchAll();
     }
 
+    public function getOldDataFromTableBy($table, $column, $value)
+    {
+        return $this->oldConnection
+            ->query(sprintf('SELECT * FROM %s WHERE %s = \'%s\'', $table, $column, $value))
+            ->fetchAll();
+    }
+
     public function truncateAllTables()
     {
         $this->connection->query('SET FOREIGN_KEY_CHECKS = 0;')->execute();

@@ -132,7 +132,7 @@ class Forum implements \JsonSerializable
     {
         return [
             'id' => $this->id,
-            'name' => $this->subject,
+            'subject' => $this->subject,
             'post' => $this->post,
             'user' => $this->user,
             'createdAt' => $this->createdAt,
