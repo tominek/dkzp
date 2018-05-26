@@ -6,6 +6,7 @@ use App\Entity\Report;
 use App\Repository\BookRepository;
 use App\Repository\ReportRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 
 class ReportService
@@ -74,6 +75,11 @@ class ReportService
         return $data;
     }
 
+    /**
+     * @param int $id
+     *
+     * @throws EntityNotFoundException
+     */
     public function remove(int $id)
     {
         $this->reportRepository->remove($id);

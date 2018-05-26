@@ -8,7 +8,6 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @method Report|null find($id, $lockMode = null, $lockVersion = null)
@@ -31,6 +30,11 @@ class ReportRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @param int $id
+     *
+     * @throws EntityNotFoundException
+     */
     public function remove(int $id): void
     {
         $report = $this->findIfExists($id);
@@ -46,7 +50,13 @@ class ReportRepository extends ServiceEntityRepository
         return $report;
     }
 
-    public function findIfExists(int $id)
+    /**
+     * @param int $id
+     *
+     * @return Report
+     * @throws EntityNotFoundException
+     */
+    public function findIfExists(int $id): Report
     {
         $entity = $this->find($id);
         if (empty($entity)) {
