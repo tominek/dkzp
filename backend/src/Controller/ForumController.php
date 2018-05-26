@@ -13,7 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ForumController extends Controller
 {
-    /** @var ForumService */
+    /**
+     * @var ForumService
+     */
     private $forumService;
 
     public function __construct(ForumService $forumService)
@@ -29,7 +31,7 @@ class ForumController extends Controller
      *
      * @return JsonResponse
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): JsonResponse
     {
         try {
             $this->forumService->createFromRequest($request);
@@ -52,7 +54,7 @@ class ForumController extends Controller
      *
      * @return JsonResponse
      */
-    public function updateAction(Request $request, string $id)
+    public function updateAction(Request $request, string $id): JsonResponse
     {
         try {
             $this->forumService->updateFromRequest($request, $id);
@@ -76,7 +78,7 @@ class ForumController extends Controller
      *
      * @return JsonResponse
      */
-    public function deleteAction(string $id)
+    public function deleteAction(string $id): JsonResponse
     {
         try {
             $this->forumService->remove($id);
@@ -89,8 +91,11 @@ class ForumController extends Controller
 
     /**
      * @Route("/forum", name="forum_list", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     *
+     * @return JsonResponse
      */
-    public function listAction()
+    public function listAction(): JsonResponse
     {
         $data = $this->forumService->getAll();
 
