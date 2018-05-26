@@ -1,2 +1,4 @@
-.main-page-header {
-  border-right: 1px solid black; }
+.main-page-header ul {
+  background-color: whitesmoke; }
+  .main-page-header ul li > a:hover {
+    background-color: #e6e6e6; }
