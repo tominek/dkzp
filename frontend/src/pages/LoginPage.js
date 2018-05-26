@@ -4,12 +4,7 @@ import {Switch, Route } from 'react-router-dom'
 import { Title } from '../components'
 import Sidebar from './loginPages/Sidebar.js'
 import { Grid, Row, Col } from 'react-bootstrap';
-
-
-import SignInPage from './loginPages/SignInPage.js'
-import LostPasswordPage from './loginPages/LostPasswordPage.js'
-import RegistrationPage from './loginPages/RegistrationPage.js'
-import HelpPage from './loginPages/HelpPage.js'
+import * as loginPages from './loginPages'
 
 class LoginPage extends React.Component {
   render() {
@@ -24,10 +19,10 @@ class LoginPage extends React.Component {
             <Col sm={12} md={9} className="text-left">
               <Switch>
                 {/* TODO regexp na routu  */}
-                <Route exact path='/prihlaseni' component={SignInPage} />
-                <Route exact path='/prihlaseni/registrace' component={RegistrationPage} />
-                <Route exact path='/prihlaseni/zapomenute-heslo' component={LostPasswordPage} />
-                <Route exact path='/prihlaseni/pomoc-s-prihlasenim' component={HelpPage} />
+                <Route exact path='/prihlaseni' component={loginPages.SignInPage} />
+                <Route exact path='/prihlaseni/registrace' component={loginPages.RegistrationPage} />
+                <Route exact path='/prihlaseni/zapomenute-heslo' component={loginPages.LostPasswordsPage} />
+                <Route exact path='/prihlaseni/pomoc-s-prihlasenim' component={loginPages.HelpPage} />
                 {/* TODO
                 - link na obnovu hesla
                 - link na potvrzeni emailu
